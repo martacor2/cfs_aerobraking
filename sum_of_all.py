@@ -33,26 +33,22 @@ CD_0=1.477
 CL_0=0.1
 Sref=11 #m^2
 
-#change path to appropriate folder
-os.chdir("C:\\Users\\Owner\\OneDrive\\Documents\\Research\\Aerobraking\\Closed Form Solution\\DragPassageResults")
-direct=("C:\\Users\\Owner\\OneDrive\\Documents\\Research\\Aerobraking\\Closed Form Solution\\DragPassageResults")
-
 diff_tot = []
 target_array = []
 time_array = []
 
 ra = [5000, 7000, 9000, 11000, 13000, 15000, 17000, 19000, 21000, 23000, 25000, 27000]
 
-for folder in sorted(os.listdir(direct)):
+for folder in sorted(os.listdir("DragPassageResults")):
     
     final_diff=[]
     
-    for folder2 in sorted(os.listdir(os.path.join(direct,folder))):
+    for folder2 in sorted(os.listdir(os.path.join("DragPassageResults",folder))):
         #check each folder in the results folder
-        for file in sorted(os.listdir(os.path.join(direct,folder,folder2))):
+        for file in sorted(os.listdir(os.path.join("DragPassageResults",folder,folder2))):
             #velocity from simulation at aoa=pi/2
             if(file.endswith("csv")):
-                csv_file=pd.read_csv(os.path.join(direct,folder,folder2,file))
+                csv_file=pd.read_csv(os.path.join("DragPassageResults",folder,folder2,file))
             files=data_gathering(csv_file)
             #altitude
             h_sim, v_sim, y_sim, f_sim, a_sim, e_sim, r_sim, t_sim, rho_sim = files[0:9]

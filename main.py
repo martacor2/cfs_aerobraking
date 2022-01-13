@@ -31,14 +31,15 @@ CD_0=1.477
 CL_0=0.1
 Sref=11 #m^2
 
+
 #change path to appropriate folder
-os.chdir("C:\\Users\\Owner\\OneDrive\\Documents\\Research\\Aerobraking\\Closed Form Solution\\DragPassageResults")
-direct=("C:\\Users\\Owner\\OneDrive\\Documents\\Research\\Aerobraking\\Closed Form Solution\\DragPassageResults")
 folder='9000'
 folder2='Results_ctrl=0_ra=9000_rp=100.0_hl=0.1_90deg'
 
+directory = "DragPassageResults/"+folder+"/"+folder2
+
 #check each folder in the results folder
-for file in sorted(os.listdir(os.path.join(direct,folder,folder2))):
+for file in sorted(os.listdir(directory)):
     #velocity from simulation at aoa=pi/2
     if(file.endswith("csv")):
         csv_file=pd.read_csv(os.path.join(direct,folder,folder2,file))

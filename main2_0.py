@@ -30,17 +30,18 @@ CL_0=0.1
 Sref=11 #m^2
 
 #change path to appropriate folder
-os.chdir("C:\\Users\\marta\\Documents\\Research_codes\\Aerobraking\\Closed Form Solution_V2\\DragPassageResults")
-direct=("C:\\Users\\marta\\Documents\\Research_codes\\Aerobraking\\Closed Form Solution_V2\\DragPassageResults")
-folder='11000'
-folder2='Results_ctrl=0_ra=11000_rp=90.0_hl=0.1_90deg'
+folder='9000'
+folder2='Results_ctrl=0_ra=9000_rp=100.0_hl=0.1_90deg'
+
+directory = "DragPassageResults/"+folder+"/"+folder2
 
 #check each folder in the results folder
-for file in sorted(os.listdir(os.path.join(direct,folder,folder2))):
+for file in sorted(os.listdir(directory)):
     #velocity from simulation at aoa=pi/2
-    if(file.endswith("csv")):
-        csv_file=pd.read_csv(os.path.join(direct,folder,folder2,file))
-    files=data_gathering(csv_file)
+    if(file.endswith("csv")):  
+        csv_file=pd.read_csv(os.path.join(directory,file))
+
+    files = data_gathering(csv_file)
     #altitude
     h_sim, v_sim, y_sim, f_sim, a_sim, e_sim, r_sim, t_sim, rho_sim = files[0:9]
 
@@ -353,7 +354,7 @@ ax3.set_xlabel("Time (sec)",size='x-large')
 ax3.grid()
 
 fig4.set_size_inches(16,5)
-fig4.savefig('C:\\Users\\marta\\Documents\\Research_codes\\Aerobraking\\Closed Form Solution_V2\\figures\\all_3.png');
+# fig4.savefig('C:\\Users\\marta\\Documents\\Research_codes\\Aerobraking\\Closed Form Solution_V2\\figures\\all_3.png');
 
 def parabola_app(pt1,pt2,pt3,time):
     
@@ -456,7 +457,7 @@ ax1.legend(fontsize=16)
 fig1.set_size_inches(10,5)
 plt.tick_params(labelsize=14)
 ax1.grid()
-fig1.savefig('C:\\Users\\marta\\Documents\\Research_codes\\Aerobraking\\Closed Form Solution_V2\\figures\\hddot_error.png');
+fig1.savefig("single_sim_plots/hddot_error.png");
 
 hope_app = np.add(np.multiply(error_app, rddotLAMB_w_LD), rddotLAMB_w_LD)
 
@@ -489,7 +490,7 @@ fig2.set_size_inches(10,5)
 plt.tick_params(labelsize=14)
 ax2.grid()
 
-fig2.savefig('C:\\Users\\marta\\Documents\\Research_codes\\Aerobraking\\Closed Form Solution_V2\\figures\\hddot.png');
+# fig2.savefig('C:\\Users\\marta\\Documents\\Research_codes\\Aerobraking\\Closed Form Solution_V2\\figures\\hddot.png');
 
 
 #should probably pass into y^2 one
