@@ -354,7 +354,7 @@ ax3.set_xlabel("Time (sec)",size='x-large')
 ax3.grid()
 
 fig4.set_size_inches(16,5)
-# fig4.savefig('C:\\Users\\marta\\Documents\\Research_codes\\Aerobraking\\Closed Form Solution_V2\\figures\\all_3.png');
+# fig4.savefig("single_sim_plots/all_3.png");
 
 def parabola_app(pt1,pt2,pt3,time):
     

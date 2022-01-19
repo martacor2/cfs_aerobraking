@@ -361,7 +361,8 @@ for folder in sorted(os.listdir(direct)):
         # plt.tick_params(labelsize=14)
         # ax2.grid()
         
-        # fig2.savefig("C:\\Users\\Owner\\OneDrive\\Documents\\Research\\Aerobraking\\Closed Form Solution\\parabola_trials\\" + folder2[15:-13]+ ".png")
+        # fig2.savefig("all_sims_figures/" + folder2[15:-13]+ "hddot.png");
+
         
         #print(time_target)
 
@@ -412,7 +413,7 @@ for folder in sorted(os.listdir(direct)):
         # plt.tick_params(labelsize=14)
         # ax1.grid()
 
-        # fig1.savefig("C:\\Users\\marta\\Documents\\Research_codes\\Aerobraking\\Closed Form Solution_V2\\figures\\" + folder2[15:-13]+ "error.png")
+        # fig1.savefig("all_sims_figures/" + folder2[15:-13]+ "error.png");
 
         #should probably pass into y^2 one
         vel_km6 = VEL2(t_simulation,tp_sim,alt_cfs,v0,y0,h0,aoa,t_simulation[-1], hope_app)[0]
@@ -439,7 +440,7 @@ for folder in sorted(os.listdir(direct)):
         # plt.legend(fontsize=16)
         # ax3.grid()
         
-        # fig3.savefig("C:\\Users\\marta\\Documents\\Research_codes\\Aerobraking\\Closed Form Solution_V2\\figures\\" + folder2[15:-13]+ "velocity.png")
+        # fig3.savefig("all_sims_figures/" + folder2[15:-13]+ "velocity.png");
 
         
         # fig2, ax2=plt.subplots()
