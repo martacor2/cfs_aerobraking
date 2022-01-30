@@ -447,7 +447,6 @@ fig1, ax1=plt.subplots()
 ax1.plot(t_simulation,tot_error,color='green', label="$Error$")
 # ax1.plot([delta_t_lamb,delta_t_lamb], [np.max(tot_error), np.min(tot_error)], "--")
 ax1.plot(np.add(x,delta_t_lamb/2), error_app, color='red', label="$Approximation$")
-ax1.plot(np.add(x,delta_t_lamb/2), error_app2, color='black', label="$Approximation2$")
 
 ax1.set_title("Total error vs time | "+folder2[15:-13],size='xx-large')
 ax1.set_xlim(0)

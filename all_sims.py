@@ -672,10 +672,10 @@ ax23.grid()
 
 import csv
 
-header = ['Simulation', 'a','b','c', 'h0', 'v0', 'y0','hddot0','tp_lamb',"tf_lamb","max drag"]
+header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0','hddot0','tp_lamb',"tf_lamb","max drag"]
 rp = [90,95,100,105,110]
 
-data = np.empty((60,11))
+data = np.empty((60,12))
 
 ct = 0
 
@@ -684,16 +684,17 @@ ra = [11000, 13000 ,15000, 17000 , 19000 , 21000 , 23000 , 25000 , 27000, 5000, 
 for i in range(len(ra)):
     for j in range(len(rp)):
         data[ct][0] = ra[i]
-        data[ct][1] = a_tot[i][j]
-        data[ct][2] = b_tot[i][j]
-        data[ct][3] = c_tot[i][j]
-        data[ct][4] = ICs_tot[i][j][0]
-        data[ct][5] = ICs_tot[i][j][1]
-        data[ct][6] = ICs_tot[i][j][2]
-        data[ct][7] = hddot0_tot[i][j]
-        data[ct][8] = tp_lamb_tot[i][j]
-        data[ct][9] = tf_lamb_tot[i][j]
-        data[ct][10] = max_D_tot[i][j]
+        data[ct][1] = rp[j]
+        data[ct][2] = a_tot[i][j]
+        data[ct][3] = b_tot[i][j]
+        data[ct][4] = c_tot[i][j]
+        data[ct][5] = ICs_tot[i][j][0]
+        data[ct][6] = ICs_tot[i][j][1]
+        data[ct][7] = ICs_tot[i][j][2]
+        data[ct][8] = hddot0_tot[i][j]
+        data[ct][9] = tp_lamb_tot[i][j]
+        data[ct][10] = tf_lamb_tot[i][j]
+        data[ct][11] = max_D_tot[i][j]
         
         ct = ct+1
 
