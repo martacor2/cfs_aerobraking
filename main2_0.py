@@ -243,7 +243,7 @@ hddot_app = hddot_approx(CL_0,CD_0,Sref,v_sim,rho_sim,Rp,h_sim,y_sim)
 
 hddot_ff = hddot_full_form(drag_sim,lift_sim,y_sim,v_sim,h_sim)
 
-rddotOM = rddot_OM(h_sim,SAM_sim)
+rddotOM = rddot_OM(h_lambert,SAM_lambert)
 rddotRE = rddot_RE(h_lambert,v_lambert,y_lambert)
 rddotLAMB = rddot_OM(h_lambert,SAM_lambert)
 
@@ -438,17 +438,17 @@ from scipy import optimize
 def test_func(x, a, b, c):
     return a * np.tanh(c* x) + b
 
-params, params_covariance = optimize.curve_fit(test_func, x, y, p0=[0.002, 0.02,0.001])
+params, params_covariance = optimize.curve_fit(test_func, x, y, p0=[-0.002, 0.02,0.001])
 print(params)
 
-error_app =  test_func(x, -params[0], params[1], -params[2])
-
-
+error_app =  test_func(x, params[0], params[1], params[2])
 
 fig1, ax1=plt.subplots()
 ax1.plot(t_simulation,tot_error,color='green', label="$Error$")
 # ax1.plot([delta_t_lamb,delta_t_lamb], [np.max(tot_error), np.min(tot_error)], "--")
 ax1.plot(np.add(x,delta_t_lamb/2), error_app, color='red', label="$Approximation$")
+ax1.plot(np.add(x,delta_t_lamb/2), error_app2, color='black', label="$Approximation2$")
+
 ax1.set_title("Total error vs time | "+folder2[15:-13],size='xx-large')
 ax1.set_xlim(0)
 ax1.set_ylabel("$(\ddot{h}_{simplified} - \ddot{r}_{RE}) / \ddot{r}_{RE}$ (m/s$^2$)",size='x-large')
@@ -473,8 +473,7 @@ ax2.plot(t_simulation,hddot_app,color='green', label="$\ddot{h}_{simplified}$")
 # ax2.plot(t_simulation,par_app,color='red', label="parabola approx")
 # ax2.plot(pt3[0],pt3[1], 'o',color='orange',markersize=10)
 
-# ax2.plot(t_simulation, rddotOM, color='cyan', label="$\ddot{r}_{OM}$")
-# ax2.plot(t_simulation, rddotRE, color='orange', label="$\ddot{r}_{RE}$")
+ax2.plot(t_simulation, rddotOM, color='cyan', label="$\ddot{r}_{OM}$")
 # ax2.plot(t_lamb, rddotLAMB, color='grey', label="$\ddot{r}_{Lambert}$")
 ax2.plot(t_lamb, rddotLAMB_w_LD, color='blue', label="$\ddot{r}_{RE}$")
 # ax2.plot(pt1[0],pt1[1], 'o',color='orange',markersize=10)
@@ -489,9 +488,7 @@ ax2.legend(fontsize=16)
 fig2.set_size_inches(10,5)
 plt.tick_params(labelsize=14)
 ax2.grid()
-
-# fig2.savefig('C:\\Users\\marta\\Documents\\Research_codes\\Aerobraking\\Closed Form Solution_V2\\figures\\hddot.png');
-
+fig2.savefig("single_sim_plots/hddot.png");
 
 #should probably pass into y^2 one
 vel_km6 = VEL2(t_simulation,tp_sim,alt_cfs,v0,y0,h0,aoa,t_simulation[-1], hope_app)[0]
@@ -517,7 +514,7 @@ plt.tick_params(labelsize=16)
 plt.legend(fontsize=16)
 ax3.grid()
 
-# fig3.savefig('C:\\Users\\marta\\Documents\\Research_codes\\Aerobraking\\Closed Form Solution_V2\\figures\\velocity.png');
+fig3.savefig("single_sim_plots/velocity.png");
 
 
 
@@ -549,5 +546,3 @@ ax3.grid()
 
 Drag = (np.max(v_lambert)**2)*np.max(rho_exp(h_lambert))/2*Sref*CD_0*aoa
 print(aoa)
-
-plt.show()

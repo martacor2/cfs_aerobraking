@@ -670,41 +670,41 @@ plt.tick_params(labelsize=14)
 plt.legend(fontsize=16)
 ax23.grid()
 
-# import csv
+import csv
 
-# header = ['Simulation', 'a','b','c', 'h0', 'v0', 'y0','hddot0','tp_lamb',"tf_lamb","max drag"]
-# rp = [90,95,100,105,110]
+header = ['Simulation', 'a','b','c', 'h0', 'v0', 'y0','hddot0','tp_lamb',"tf_lamb","max drag"]
+rp = [90,95,100,105,110]
 
-# data = np.empty((60,11))
+data = np.empty((60,11))
 
-# ct = 0
+ct = 0
 
-# ra = [11000, 13000 ,15000, 17000 , 19000 , 21000 , 23000 , 25000 , 27000, 5000, 7000, 9000]
+ra = [11000, 13000 ,15000, 17000 , 19000 , 21000 , 23000 , 25000 , 27000, 5000, 7000, 9000]
 
-# for i in range(len(ra)):
-#     for j in range(len(rp)):
-#         data[ct][0] = ra[i]
-#         data[ct][1] = a_tot[i][j]
-#         data[ct][2] = b_tot[i][j]
-#         data[ct][3] = c_tot[i][j]
-#         data[ct][4] = ICs_tot[i][j][0]
-#         data[ct][5] = ICs_tot[i][j][1]
-#         data[ct][6] = ICs_tot[i][j][2]
-#         data[ct][7] = hddot0_tot[i][j]
-#         data[ct][8] = tp_lamb_tot[i][j]
-#         data[ct][9] = tf_lamb_tot[i][j]
-#         data[ct][10] = max_D_tot[i][j]
+for i in range(len(ra)):
+    for j in range(len(rp)):
+        data[ct][0] = ra[i]
+        data[ct][1] = a_tot[i][j]
+        data[ct][2] = b_tot[i][j]
+        data[ct][3] = c_tot[i][j]
+        data[ct][4] = ICs_tot[i][j][0]
+        data[ct][5] = ICs_tot[i][j][1]
+        data[ct][6] = ICs_tot[i][j][2]
+        data[ct][7] = hddot0_tot[i][j]
+        data[ct][8] = tp_lamb_tot[i][j]
+        data[ct][9] = tf_lamb_tot[i][j]
+        data[ct][10] = max_D_tot[i][j]
         
-#         ct = ct+1
+        ct = ct+1
 
-# with open('C:/Users/Owner/OneDrive/Documents/Research/Aerobraking/Closed Form Solution/data_related.csv', 'w', encoding='UTF8', newline='') as f:
-#     writer = csv.writer(f)
+with open('data/data_related.csv', 'w', encoding='UTF8', newline='') as f:
+    writer = csv.writer(f)
 
-#     # write the header
-#     writer.writerow(header)
+    # write the header
+    writer.writerow(header)
 
-#     # write the data
-#     writer.writerows(data)
+    # write the data
+    writer.writerows(data)
 
 
 # r90 = []
