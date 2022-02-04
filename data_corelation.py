@@ -60,10 +60,9 @@ X = [rho0[0:-1:5],rho0[1:-1:5],rho0[2:-1:5],rho0[3:-1:5],rho0[4:-1:5]]
 Y = [a_coeff90,a_coeff90,a_coeff90,a_coeff90,a_coeff90]
 Z = [v0[0:-1:5],v0[1:-1:5],v0[2:-1:5],v0[3:-1:5],v0[4:-1:5]]
 
-
 fig_contour = plt.figure("contour", dpi=500, figsize=[6,4])
 plt.figure("contour")
-CS = plt.tricontourf(rho0, v0, a_coeff, 12, cmap = 'viridis')
+CS = plt.tricontourf(a_coeff, rho0, v0)
 CB = fig_contour.colorbar(CS)
 # plt.scatter(rho0[0:-1:5], a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
 # plt.scatter(rho0[1:-1:5], a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
@@ -73,6 +72,22 @@ CB = fig_contour.colorbar(CS)
 plt.legend();plt.grid()
 plt.xlabel("Initial Density")
 plt.ylabel("$a$")
+fig_contour.savefig("all_sims_figures/contour.png")
 
+
+# fig_3D = plt.figure("3d", dpi=500, figsize=[6,4])
+fig_3D = plt.figure("3d")
+ax = fig_3D.add_subplot(projection = '3d')
+CS = ax.plot_trisurf(rho0, a_coeff, v0, cmap='binary', linewidths = 0.2)
+CB = fig_3D.colorbar(CS)
+ax.scatter(rho0[0:-1:5], a_coeff90, v0[0:-1:5],color='green', marker='o', label = '$h_p = 90$ km')   
+ax.scatter(rho0[1:-1:5], a_coeff95, v0[1:-1:5],color='red', marker='o', label = '$h_p = 95$ km')   
+ax.scatter(rho0[2:-1:5], a_coeff100,v0[2:-1:5], color='blue', marker='o',  label = '$h_p = 100$ km')   
+ax.scatter(rho0[3:-1:5], a_coeff105, v0[3:-1:5],color='orange', marker='o', label = '$h_p = 105$ km')   
+ax.scatter(rho0[4:-1:5], a_coeff110, v0[4:-1:5],color='purple', marker='o',  label = '$h_p = 110$ km')  
+# ax.set_ylabel("$a$",size='x-large')
+# ax.set_xlabel("$D_{max}$ (N)",size='x-large')
+plt.legend(fontsize=16)
+plt.grid()
 plt.show()
-fig_contour.savefig("all_sims_figures/contour1.png")
+fig_3D.savefig("all_sims_figures/3d.png")
