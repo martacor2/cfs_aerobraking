@@ -475,7 +475,7 @@ for folder in sorted(os.listdir(directory)):
         b_array.append(b_element)
         c_array.append(c_element)
         hddot0_array.append(hddot_app[0])
-        ICs_array.append([h_sim[0],v_sim[0],y_sim[0]])
+        ICs_array.append([h_sim[0],v_sim[0],y_sim[0],rho_sim[0]])
         tp_lamb_array.append(tp_lamb)
         tf_lamb_array.append(delta_t_lamb)
 
@@ -672,10 +672,10 @@ ax23.grid()
 
 import csv
 
-header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0','hddot0','tp_lamb',"tf_lamb","max drag"]
+header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_lamb","max drag"]
 rp = [90,95,100,105,110]
 
-data = np.empty((60,12))
+data = np.empty((60,13))
 
 ct = 0
 
@@ -691,14 +691,15 @@ for i in range(len(ra)):
         data[ct][5] = ICs_tot[i][j][0]
         data[ct][6] = ICs_tot[i][j][1]
         data[ct][7] = ICs_tot[i][j][2]
-        data[ct][8] = hddot0_tot[i][j]
-        data[ct][9] = tp_lamb_tot[i][j]
-        data[ct][10] = tf_lamb_tot[i][j]
-        data[ct][11] = max_D_tot[i][j]
+        data[ct][8] = ICs_tot[i][j][3]
+        data[ct][9] = hddot0_tot[i][j]
+        data[ct][10] = tp_lamb_tot[i][j]
+        data[ct][11] = tf_lamb_tot[i][j]
+        data[ct][12] = max_D_tot[i][j]
         
         ct = ct+1
 
-with open('data/data_related.csv', 'w', encoding='UTF8', newline='') as f:
+with open('data/data_all_sims.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
 
     # write the header
@@ -906,6 +907,8 @@ y90 =  test_func(np.array(x90), params[0], params[1])
 X = [x90,x95,x100,x105,x110]
 Y = [cr90,cr95,cr100,cr105,cr110]
 Z = [t90,t95,t100,t105,t110]
+
+print(Z)
 
 fig85, ax85 = plt.subplots()
 CS = ax85.contourf(X,Y,Z,12, cmap = 'viridis')
