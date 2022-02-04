@@ -130,6 +130,9 @@ for i in range(12):
 
 # ax.set_ylabel("$a$",size='x-large')
 # ax.set_xlabel("$D_{max}$ (N)",size='x-large')
+plt.xlabel("Density")
+plt.ylabel("a")
+# plt.bar_label("$v_0$")
 plt.legend(fontsize=16)
 plt.grid()
 plt.show()
