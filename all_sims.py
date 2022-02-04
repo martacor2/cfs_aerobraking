@@ -675,7 +675,9 @@ import csv
 header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_lamb","max drag"]
 rp = [90,95,100,105,110]
 
-data = np.empty((60,13))
+print(np.size(hddot0_tot))
+
+data = np.empty((61,13))
 
 ct = 0
 
