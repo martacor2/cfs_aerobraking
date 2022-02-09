@@ -479,10 +479,10 @@ for folder in sorted(os.listdir(directory)):
         tp_lamb_array.append(tp_lamb)
         tf_lamb_array.append(delta_t_lamb)
 
-        max_D_array.append((np.max(v_lambert)**2)*np.max(rho_exp(h_lambert))/2*Sref*CD_0*aoa)
+        # max_D_array.append((np.max(v_lambert)**2)*np.max(rho_exp(h_lambert))/2*Sref*CD_0*aoa)
         # max_D_array.append((np.max(v_lambert)**2)*(rho_exp(h_lambert)[0])/2*Sref*CD_0*aoa)
 
-        # max_D_array.append(np.max(drag_sim))
+        max_D_array.append(drag_sim[0])
         
 
     diff_tot.append([final_diff[3],final_diff[4],final_diff[0],final_diff[1],final_diff[2]])
@@ -672,7 +672,7 @@ ax23.grid()
 
 import csv
 
-header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_lamb","max drag"]
+header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_lamb","Inirial drag"]
 rp = [90,95,100,105,110]
 
 print(np.size(hddot0_tot))

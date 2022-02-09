@@ -35,6 +35,7 @@ y0 = np.array(csv_file["y0"])
 rho0 = np.array(csv_file["rho0"])
 hddot0 = np.array(csv_file["hddot0"])
 tf_lamb = np.array(csv_file["tf_lamb"])
+drag0 = np.array(csv_file["Initial drag"])
 
 a_coeff90 = a_coeff[0:-1:5]
 a_coeff95 = a_coeff[1:-1:5]
@@ -48,6 +49,17 @@ a_coeff100 = a_coeff100.tolist()[9:12] + a_coeff100.tolist()[0:9]
 a_coeff105 = a_coeff105.tolist()[9:12] + a_coeff105.tolist()[0:9]
 a_coeff110 = a_coeff110.tolist()[9:12] + a_coeff110.tolist()[0:9]
 
+c_coeff90 = c_coeff[0:-1:5]
+c_coeff95 = c_coeff[1:-1:5]
+c_coeff100 = c_coeff[2:-1:5]
+c_coeff105 = c_coeff[3:-1:5]
+c_coeff110 = c_coeff[4:-1:5]
+
+c_coeff90 = c_coeff90.tolist()[9:12] + c_coeff90.tolist()[0:9]
+c_coeff95 = c_coeff95.tolist()[9:12] + c_coeff95.tolist()[0:9]
+c_coeff100 = c_coeff100.tolist()[9:12] + c_coeff100.tolist()[0:9]
+c_coeff105 = c_coeff105.tolist()[9:12] + c_coeff105.tolist()[0:9]
+c_coeff110 = c_coeff110.tolist()[9:12] + c_coeff110.tolist()[0:9]
 
 rho090 = rho0[0:-1:5]
 rho095 = rho0[1:-1:5]
@@ -73,37 +85,66 @@ v0100 = v0100.tolist()[9:12] + v0100.tolist()[0:9]
 v0105 = v0105.tolist()[9:12] + v0105.tolist()[0:9]
 v0110 = v0110.tolist()[9:12] + v0110.tolist()[0:9]
 
+y090 = y0[0:-1:5]
+y095 = y0[1:-1:5]
+y0100 = y0[2:-1:5]
+y0105 = y0[3:-1:5]
+y0110 = y0[4:-1:5]
+
+y090 = y090.tolist()[9:12] + y090.tolist()[0:9]
+y095 = y095.tolist()[9:12] + y095.tolist()[0:9]
+y0100 = y0100.tolist()[9:12] + y0100.tolist()[0:9]
+y0105 = y0105.tolist()[9:12] + y0105.tolist()[0:9]
+y0110 = y0110.tolist()[9:12] + y0110.tolist()[0:9]
+
+drag090 = drag0[0:-1:5]
+drag095 = drag0[1:-1:5]
+drag0100 = drag0[2:-1:5]
+drag0105 = drag0[3:-1:5]
+drag0110 = drag0[4:-1:5]
+
+drag090 = drag090.tolist()[9:12] + drag090.tolist()[0:9]
+drag095 = drag095.tolist()[9:12] + drag095.tolist()[0:9]
+drag0100 = drag0100.tolist()[9:12] + drag0100.tolist()[0:9]
+drag0105 = drag0105.tolist()[9:12] + drag0105.tolist()[0:9]
+drag0110 = drag0110.tolist()[9:12] + drag0110.tolist()[0:9]
+
 
 # fig_acoeff = plt.figure("a_coeff", dpi=500, figsize=[6,4])
 # plt.figure("a_coeff")
-# plt.scatter(y0[0:-1:5], a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
-# plt.scatter(y0[1:-1:5], a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
-# plt.scatter(y0[2:-1:5], a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
-# plt.scatter(y0[3:-1:5], a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
-# plt.scatter(y0[4:-1:5], a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')   
+# plt.scatter(y090, a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
+# plt.scatter(y095, a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
+# plt.scatter(y0100, a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
+# plt.scatter(y0105, a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
+# plt.scatter(y0110, a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')   
 # # plt.scatter(y0, a_coeff, color='blue', marker='o')    
 # plt.legend();plt.grid()
-# plt.xlabel("$y_0$")
+# plt.xlabel("$\gamma_0$")
 # plt.ylabel("$a$")
 # fig_acoeff.savefig("all_sims_figures/a_coeff_y0.png")
 
-# X = [rho0[0:-1:5],rho0[1:-1:5],rho0[2:-1:5],rho0[3:-1:5],rho0[4:-1:5]]
-# Y = [a_coeff90,a_coeff90,a_coeff90,a_coeff90,a_coeff90]
-# Z = [v0[0:-1:5],v0[1:-1:5],v0[2:-1:5],v0[3:-1:5],v0[4:-1:5]]
+X = [v090,v095,v0100,v0105,v0110]
+# X = [y090,y095,y0100,y0105,y0110]
+# Y = [rho090,rho095,rho0100,rho0105,rho0110]
+Y = [drag090,drag095,drag0100,drag0105,drag0110]
+Z = [a_coeff90,a_coeff95,a_coeff100,a_coeff105,a_coeff110]
 
-# fig_contour = plt.figure("contour", dpi=500, figsize=[6,4])
-# plt.figure("contour")
-# CS = plt.tricontourf(a_coeff, rho0, v0)
-# CB = fig_contour.colorbar(CS)
-# # plt.scatter(rho0[0:-1:5], a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
-# # plt.scatter(rho0[1:-1:5], a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
-# # plt.scatter(rho0[2:-1:5], a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
-# # plt.scatter(rho0[3:-1:5], a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
-# # plt.scatter(rho0[4:-1:5], a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')   
-# plt.legend();plt.grid()
-# plt.xlabel("Initial Density")
-# plt.ylabel("$a$")
-# fig_contour.savefig("all_sims_figures/contour.png")
+
+fig_contour = plt.figure("contour", dpi=500, figsize=[6,4])
+plt.figure("contour")
+CS = plt.contourf(Y, Z, X, 15)
+CB = fig_contour.colorbar(CS)
+# plt.scatter(rho090, a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
+# plt.scatter(rho095, a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
+# plt.scatter(rho0100, a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
+# plt.scatter(rho0105, a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
+# plt.scatter(rho0110, a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')   
+plt.grid()
+plt.xlabel('$D_0$')
+plt.ylabel("$a$")
+CB.ax.set_ylabel("$v_0$")
+# CB.ax.set_ylabel(r"$\rho_0$")
+fig_contour.savefig("all_sims_figures/contour_v0_D0.png")
 
 
 # fig_3D = plt.figure("3d", dpi=500, figsize=[6,4])
@@ -119,7 +160,7 @@ ax.plot(rho0110, a_coeff110, v0110,'c.-',  label = '$h_p = 110$ km')
 
 
 for i in range(12):
-    print(i)
+    # print(i)
 
     r = [rho090[i], rho095[i], rho0100[i], rho0105[i], rho0110[i]]
     a = [a_coeff90[i], a_coeff95[i], a_coeff100[i], a_coeff105[i], a_coeff110[i]]
@@ -135,5 +176,5 @@ plt.ylabel("a")
 # plt.bar_label("$v_0$")
 plt.legend(fontsize=16)
 plt.grid()
-plt.show()
+# plt.show()
 fig_3D.savefig("all_sims_figures/3d.png")

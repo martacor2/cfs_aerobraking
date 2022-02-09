@@ -31,7 +31,7 @@ Sref=11 #m^2
 
 #change path to appropriate folder
 folder='9000'
-folder2='Results_ctrl=0_ra=9000_rp=100.0_hl=0.1_90deg'
+folder2='Results_ctrl=0_ra=9000_rp=90.0_hl=0.1_90deg'
 
 directory = "DragPassageResults/"+folder+"/"+folder2
 
@@ -545,3 +545,5 @@ ax3.grid()
 
 Drag = (np.max(v_lambert)**2)*np.max(rho_exp(h_lambert))/2*Sref*CD_0*aoa
 print(aoa)
+
+print(np.min(h_sim))
