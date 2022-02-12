@@ -24,7 +24,7 @@ Sref=11 #m^2
 
 csv_file=pd.read_csv("data/data_all_sims.csv")
 
-name = np.array(csv_file["Simulation"])
+ra = np.array(csv_file["Simulation"])
 hp = np.array(csv_file["hp"])
 a_coeff = np.array(csv_file["a"])
 b_coeff = np.array(csv_file["b"])
@@ -36,6 +36,15 @@ rho0 = np.array(csv_file["rho0"])
 hddot0 = np.array(csv_file["hddot0"])
 tf_lamb = np.array(csv_file["tf_lamb"])
 drag0 = np.array(csv_file["Initial drag"])
+
+print(ra)
+
+print(hp)
+
+a_axis = np.divide(np.subtract(np.multiply(ra,1000),np.add(np.multiply(hp,1000),Rp)),2)
+# energy = a_axis
+energy = np.multiply(1/(Sref*(CD_0*aoa)), np.divide(drag0,rho0))
+# energy = np.divide(-mu/2, a_axis)
 
 a_coeff90 = a_coeff[0:-1:5]
 a_coeff95 = a_coeff[1:-1:5]
@@ -109,43 +118,57 @@ drag0100 = drag0100.tolist()[9:12] + drag0100.tolist()[0:9]
 drag0105 = drag0105.tolist()[9:12] + drag0105.tolist()[0:9]
 drag0110 = drag0110.tolist()[9:12] + drag0110.tolist()[0:9]
 
+energy90 = energy[0:-1:5]
+energy95 = energy[1:-1:5]
+energy100 = energy[2:-1:5]
+energy105 = energy[3:-1:5]
+energy110 = energy[4:-1:5]
 
-# fig_acoeff = plt.figure("a_coeff", dpi=500, figsize=[6,4])
-# plt.figure("a_coeff")
-# plt.scatter(y090, a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
-# plt.scatter(y095, a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
-# plt.scatter(y0100, a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
-# plt.scatter(y0105, a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
-# plt.scatter(y0110, a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')   
-# # plt.scatter(y0, a_coeff, color='blue', marker='o')    
-# plt.legend();plt.grid()
-# plt.xlabel("$\gamma_0$")
-# plt.ylabel("$a$")
-# fig_acoeff.savefig("all_sims_figures/a_coeff_y0.png")
+energy90 = energy90.tolist()[9:12] + energy90.tolist()[0:9]
+energy95 = energy95.tolist()[9:12] + energy95.tolist()[0:9]
+energy100 = energy100.tolist()[9:12] + energy100.tolist()[0:9]
+energy105 = energy105.tolist()[9:12] + energy105.tolist()[0:9]
+energy110 = energy110.tolist()[9:12] + energy110.tolist()[0:9]
 
-X = [v090,v095,v0100,v0105,v0110]
+
+fig_acoeff = plt.figure("a_coeff", dpi=500, figsize=[6,4])
+plt.figure("a_coeff")
+plt.scatter(energy90, a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
+plt.scatter(energy95, a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
+plt.scatter(energy100, a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
+plt.scatter(energy105, a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
+plt.scatter(energy110, a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')   
+# plt.scatter(y0, a_coeff, color='blue', marker='o')    
+plt.legend();plt.grid()
+plt.xlabel("Specific Energy")
+plt.ylabel("$a$")
+fig_acoeff.savefig("all_sims_figures/a_coeff_specific_energy.png")
+
+# X = [v090,v095,v0100,v0105,v0110]
 # X = [y090,y095,y0100,y0105,y0110]
-# Y = [rho090,rho095,rho0100,rho0105,rho0110]
+# X = [rho090,rho095,rho0100,rho0105,rho0110]
+X = [energy90,energy95,energy100,energy105,energy110]
 Y = [drag090,drag095,drag0100,drag0105,drag0110]
-# Y = [a_coeff90,a_coeff95,a_coeff100,a_coeff105,a_coeff110]
-Z = [c_coeff90,c_coeff95,c_coeff100,c_coeff105,c_coeff110]
+Z = [a_coeff90,a_coeff95,a_coeff100,a_coeff105,a_coeff110]
+# Z = [c_coeff90,c_coeff95,c_coeff100,c_coeff105,c_coeff110]
 
 
-# fig_contour = plt.figure("contour", dpi=500, figsize=[6,4])
-# plt.figure("contour")
-# CS = plt.contourf(Y, Z, X, 15)
-# CB = fig_contour.colorbar(CS)
-# # plt.scatter(rho090, a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
-# # plt.scatter(rho095, a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
-# # plt.scatter(rho0100, a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
-# # plt.scatter(rho0105, a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
-# # plt.scatter(rho0110, a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')   
-# plt.grid()
-# plt.xlabel('$D_0$')
-# plt.ylabel("$a$")
-# CB.ax.set_ylabel("$v_0$")
-# # CB.ax.set_ylabel(r"$\rho_0$")
-# fig_contour.savefig("all_sims_figures/contour_a_c_v0.png")
+fig_contour = plt.figure("contour", dpi=500, figsize=[6,4])
+plt.figure("contour")
+CS = plt.contourf(X, Y, Z, 15)
+CB = fig_contour.colorbar(CS)
+# plt.scatter(rho090, drag090, color='green', marker='o', label = '$h_p = 90$ km')   
+# plt.scatter(rho095, drag095, color='red', marker='o', label = '$h_p = 95$ km')   
+# plt.scatter(rho0100,drag0100, color='blue', marker='o',  label = '$h_p = 100$ km')   
+# plt.scatter(rho0105, drag0105, color='orange', marker='o', label = '$h_p = 105$ km')   
+# plt.scatter(rho0110, drag0110, color='purple', marker='o',  label = '$h_p = 110$ km')   
+plt.grid()
+# plt.xlabel(r'$\rho_0$')
+plt.xlabel("Specific Kinetic Energy")
+plt.ylabel("$D_0$")
+CB.ax.set_ylabel("$a$")
+# CB.ax.set_ylabel(r"$\rho_0$")
+fig_contour.savefig("all_sims_figures/contour_a_D0_asem.png")
 
 
 # fig_3D = plt.figure("3d", dpi=500, figsize=[6,4])
@@ -153,32 +176,32 @@ fig_3D = plt.figure("3d")
 ax = fig_3D.add_subplot(projection = '3d')
 # CS = ax.plot_trisurf(rho0, a_coeff, v0, cmap=plt.cm.Spectral, linewidth=1, antialiased=True)
 # CB = fig_3D.colorbar(CS)
-ax.plot(rho090, a_coeff90, y090,'b.-', label = '$h_p = 90$ km')   
-ax.plot(rho095, a_coeff95, y095,'g.-', label = '$h_p = 95$ km')   
-ax.plot(rho0100, a_coeff100,y0100, 'r.-',  label = '$h_p = 100$ km')   
-ax.plot(rho0105, a_coeff105, y0105,'m.-', label = '$h_p = 105$ km')   
-ax.plot(rho0110, a_coeff110, y0110,'c.-',  label = '$h_p = 110$ km')  
+ax.plot(energy90[1:], drag090[1:], a_coeff90[1:],'b.-', label = '$h_p = 90$ km')   
+ax.plot(energy95[1:], drag095[1:], a_coeff95[1:],'g.-', label = '$h_p = 95$ km')   
+ax.plot(energy100[1:], drag0100[1:],a_coeff100[1:], 'r.-',  label = '$h_p = 100$ km')   
+ax.plot(energy105[1:], drag0105[1:], a_coeff105[1:],'m.-', label = '$h_p = 105$ km')   
+ax.plot(energy110[1:], drag0110[1:], a_coeff110[1:],'c.-',  label = '$h_p = 110$ km')  
 
 
-for i in range(12):
+for i in range(1, 12):
     # print(i)
 
-    r = [rho090[i], rho095[i], rho0100[i], rho0105[i], rho0110[i]]
-    # v = [drag090[i], drag095[i], drag0100[i], drag0105[i], drag0110[i]]
-    v = [y090[i], y095[i], y0100[i], y0105[i], y0110[i]]
+    r = [energy90[i], energy95[i], energy100[i], energy105[i], energy110[i]]
+    v = [drag090[i], drag095[i], drag0100[i], drag0105[i], drag0110[i]]
+    # v = [y090[i], y095[i], y0100[i], y0105[i], y0110[i]]
     a = [a_coeff90[i], a_coeff95[i], a_coeff100[i], a_coeff105[i], a_coeff110[i]]
     # v = [v090[i], v095[i], v0100[i], v0105[i], v0110[i]]
 
-    ax.plot(r, a, v,'k-')
+    ax.plot(r, v, a,'k-')
 
 
 # ax.set_ylabel("$a$",size='x-large')
 # ax.set_xlabel("$D_{max}$ (N)",size='x-large')
-plt.xlabel(r"$\rho_0$")
-plt.ylabel("a")
-ax.set_zlabel("$D_0$")
+plt.xlabel("Specific kinetic energy")
+plt.ylabel("Initial Drag")
+ax.set_zlabel("$a$")
 # plt.bar_label("$v_0$")
 plt.legend(fontsize=16)
 plt.grid()
-plt.show()
+# plt.show()
 fig_3D.savefig("all_sims_figures/3d.png")
