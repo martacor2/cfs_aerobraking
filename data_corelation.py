@@ -36,6 +36,7 @@ rho0 = np.array(csv_file["rho0"])
 hddot0 = np.array(csv_file["hddot0"])
 tf_lamb = np.array(csv_file["tf_lamb"])
 drag0 = np.array(csv_file["Initial drag"])
+drag_int = np.array(csv_file["Integral drag"])
 
 print(ra)
 
@@ -130,19 +131,44 @@ energy100 = energy100.tolist()[9:12] + energy100.tolist()[0:9]
 energy105 = energy105.tolist()[9:12] + energy105.tolist()[0:9]
 energy110 = energy110.tolist()[9:12] + energy110.tolist()[0:9]
 
+drag_int90 = drag_int[0:-1:5]
+drag_int95 = drag_int[1:-1:5]
+drag_int100 = drag_int[2:-1:5]
+drag_int105 = drag_int[3:-1:5]
+drag_int110 = drag_int[4:-1:5]
+
+drag_int90 = drag_int90.tolist()[9:12] + drag_int90.tolist()[0:9]
+drag_int95 = drag_int95.tolist()[9:12] + drag_int95.tolist()[0:9]
+drag_int100 = drag_int100.tolist()[9:12] + drag_int100.tolist()[0:9]
+drag_int105 = drag_int105.tolist()[9:12] + drag_int105.tolist()[0:9]
+drag_int110 = drag_int110.tolist()[9:12] + drag_int110.tolist()[0:9]
+
+
+# fig_acoeff = plt.figure("a_coeff", dpi=500, figsize=[6,4])
+# plt.figure("a_coeff")
+# plt.scatter(energy90, a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
+# plt.scatter(energy95, a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
+# plt.scatter(energy100, a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
+# plt.scatter(energy105, a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
+# plt.scatter(energy110, a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')   
+# # plt.scatter(y0, a_coeff, color='blue', marker='o')    
+# plt.legend();plt.grid()
+# plt.xlabel("Specific Energy")
+# plt.ylabel("$a$")
+# fig_acoeff.savefig("all_sims_figures/a_coeff_specific_energy.png")
 
 fig_acoeff = plt.figure("a_coeff", dpi=500, figsize=[6,4])
 plt.figure("a_coeff")
-plt.scatter(energy90, a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
-plt.scatter(energy95, a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
-plt.scatter(energy100, a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
-plt.scatter(energy105, a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
-plt.scatter(energy110, a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')   
+plt.scatter(drag_int90, a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
+plt.scatter(drag_int95, a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
+plt.scatter(drag_int100, a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
+plt.scatter(drag_int105, a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
+plt.scatter(drag_int110, a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')   
 # plt.scatter(y0, a_coeff, color='blue', marker='o')    
 plt.legend();plt.grid()
-plt.xlabel("Specific Energy")
+plt.xlabel("Integral of Drag (Ns)")
 plt.ylabel("$a$")
-fig_acoeff.savefig("all_sims_figures/a_coeff_specific_energy.png")
+fig_acoeff.savefig("all_sims_figures/a_coeff_drag_integral.png")
 
 # X = [v090,v095,v0100,v0105,v0110]
 # X = [y090,y095,y0100,y0105,y0110]

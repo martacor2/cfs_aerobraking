@@ -17,7 +17,7 @@ from closed_form_solution import *
 import matplotlib.cm as cm
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.tri as mtri
-
+from scipy import integrate
 #initialize arrays to store data
 amplitude=[]
 start=[]
@@ -36,6 +36,7 @@ tf_lamb_tot=[]
 max_D_tot = []
 hddot0_tot=[]
 ICs_tot = []
+drag_integral_tot = []
 
 #constants
 aoa=np.pi/2
@@ -73,7 +74,8 @@ for folder in sorted(os.listdir(directory)):
     tp_lamb_array=[]
     tf_lamb_array=[]
     max_D_array=[]
-    
+    drag_integral = []
+
     for folder2 in sorted(os.listdir(os.path.join(directory,folder))):
         #check each folder in the results folder
         for file in sorted(os.listdir(os.path.join(directory,folder,folder2))):
@@ -483,6 +485,9 @@ for folder in sorted(os.listdir(directory)):
         # max_D_array.append((np.max(v_lambert)**2)*(rho_exp(h_lambert)[0])/2*Sref*CD_0*aoa)
 
         max_D_array.append(drag_sim[0])
+
+        drag_int = integrate.simps(drag_sim, x = t_simulation)
+        drag_integral.append(drag_int)
         
 
     diff_tot.append([final_diff[3],final_diff[4],final_diff[0],final_diff[1],final_diff[2]])
@@ -495,7 +500,7 @@ for folder in sorted(os.listdir(directory)):
     tp_lamb_tot.append([tp_lamb_array[3],tp_lamb_array[4],tp_lamb_array[0],tp_lamb_array[1],tp_lamb_array[2]])
     tf_lamb_tot.append([tf_lamb_array[3],tf_lamb_array[4],tf_lamb_array[0],tf_lamb_array[1],tf_lamb_array[2]]) 
     max_D_tot.append([max_D_array[3],max_D_array[4],max_D_array[0],max_D_array[1],max_D_array[2]]) 
-    
+    drag_integral_tot.append([drag_integral[3],drag_integral[4],drag_integral[0],drag_integral[1],drag_integral[2]])
 
 r90 = []
 r95 = []
@@ -672,12 +677,12 @@ ax23.grid()
 
 import csv
 
-header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_lamb","Inirial drag"]
+header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_lamb","Initial drag", "Integral Drag"]
 rp = [90,95,100,105,110]
 
 print(np.size(hddot0_tot))
 
-data = np.empty((61,13))
+data = np.empty((61,14))
 
 ct = 0
 
@@ -698,6 +703,7 @@ for i in range(len(ra)):
         data[ct][10] = tp_lamb_tot[i][j]
         data[ct][11] = tf_lamb_tot[i][j]
         data[ct][12] = max_D_tot[i][j]
+        data[ct][13] = drag_integral_tot[i][j]
         
         ct = ct+1
 
