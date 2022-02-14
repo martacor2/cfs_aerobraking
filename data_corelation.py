@@ -195,7 +195,7 @@ plt.scatter(drag_int110, a_coeff110, color='purple', marker='o',  label = '$h_p 
 
 # plt.scatter(y0, a_coeff, color='blue', marker='o')    
 plt.legend();plt.grid()
-plt.xlabel("Integral of Drag/$t_f$ (N)")
+plt.xlabel("Integral of Drag (Ns)")
 plt.ylabel("$a$")
 fig_acoeff.savefig("all_sims_figures/a_coeff_drag_integral.png")
 
