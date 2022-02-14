@@ -32,7 +32,7 @@ a_tot=[]
 b_tot=[]
 c_tot=[]
 tp_lamb_tot=[]
-tf_lamb_tot=[]
+tf_sim_tot=[]
 max_D_tot = []
 hddot0_tot=[]
 ICs_tot = []
@@ -72,7 +72,7 @@ for folder in sorted(os.listdir(directory)):
     hddot0_array =[]
     ICs_array=[]
     tp_lamb_array=[]
-    tf_lamb_array=[]
+    tf_sim_array=[]
     max_D_array=[]
     drag_integral = []
 
@@ -479,7 +479,7 @@ for folder in sorted(os.listdir(directory)):
         hddot0_array.append(hddot_app[0])
         ICs_array.append([h_sim[0],v_sim[0],y_sim[0],rho_sim[0]])
         tp_lamb_array.append(tp_lamb)
-        tf_lamb_array.append(delta_t_lamb)
+        tf_sim_array.append(t_simulation[-1])
 
         # max_D_array.append((np.max(v_lambert)**2)*np.max(rho_exp(h_lambert))/2*Sref*CD_0*aoa)
         # max_D_array.append((np.max(v_lambert)**2)*(rho_exp(h_lambert)[0])/2*Sref*CD_0*aoa)
@@ -498,7 +498,7 @@ for folder in sorted(os.listdir(directory)):
     hddot0_tot.append([hddot0_array[3],hddot0_array[4],hddot0_array[0],hddot0_array[1],hddot0_array[2]])
     ICs_tot.append([ICs_array[3],ICs_array[4],ICs_array[0],ICs_array[1],ICs_array[2]])
     tp_lamb_tot.append([tp_lamb_array[3],tp_lamb_array[4],tp_lamb_array[0],tp_lamb_array[1],tp_lamb_array[2]])
-    tf_lamb_tot.append([tf_lamb_array[3],tf_lamb_array[4],tf_lamb_array[0],tf_lamb_array[1],tf_lamb_array[2]]) 
+    tf_sim_tot.append([tf_sim_array[3],tf_sim_array[4],tf_sim_array[0],tf_sim_array[1],tf_sim_array[2]]) 
     max_D_tot.append([max_D_array[3],max_D_array[4],max_D_array[0],max_D_array[1],max_D_array[2]]) 
     drag_integral_tot.append([drag_integral[3],drag_integral[4],drag_integral[0],drag_integral[1],drag_integral[2]])
 
@@ -677,7 +677,9 @@ ax23.grid()
 
 import csv
 
-header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_lamb","Initial drag", "Integral Drag"]
+print(tf_sim_tot)
+
+header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral Drag"]
 rp = [90,95,100,105,110]
 
 print(np.size(hddot0_tot))
@@ -701,7 +703,7 @@ for i in range(len(ra)):
         data[ct][8] = ICs_tot[i][j][3]
         data[ct][9] = hddot0_tot[i][j]
         data[ct][10] = tp_lamb_tot[i][j]
-        data[ct][11] = tf_lamb_tot[i][j]
+        data[ct][11] = tf_sim_tot[i][j]
         data[ct][12] = max_D_tot[i][j]
         data[ct][13] = drag_integral_tot[i][j]
         
@@ -828,197 +830,6 @@ with open('data/data_all_sims.csv', 'w', encoding='UTF8', newline='') as f:
 
 
 
-cr90 = []
-cr95 = []
-cr100 = []
-cr105 = []
-cr110 = []
-
-x90 = []
-x95 = []
-x100 = []
-x105 = []
-x110 = []
-
-t90 = []
-t95 = []
-t100 = []
-t105 = []
-t110 = []
-    
-coeff_array_m = []
-
-coeff_array_b = []
-
-for i in range(len(ra)):
-    cr90.append(a_tot[i][0])
-    cr95.append(a_tot[i][1])
-    cr100.append(a_tot[i][2])
-    cr105.append(a_tot[i][3])
-    cr110.append(a_tot[i][4])
-    
-    x90.append(max_D_tot[i][0])
-    x95.append(max_D_tot[i][1])
-    x100.append(max_D_tot[i][2])
-    x105.append(max_D_tot[i][3])
-    x110.append(max_D_tot[i][4])
-
-    t90.append(tf_lamb_tot[i][0])
-    t95.append(tf_lamb_tot[i][1])
-    t100.append(tf_lamb_tot[i][2])
-    t105.append(tf_lamb_tot[i][3])
-    t110.append(tf_lamb_tot[i][4])
-    
-    coeff = np.polyfit( [max_D_tot[i][0],max_D_tot[i][1],max_D_tot[i][2],max_D_tot[i][3],max_D_tot[i][4] ], [a_tot[i][0],a_tot[i][1],a_tot[i][2],a_tot[i][3],a_tot[i][4]], 1)
-    coeff_array_b.append(coeff[1])
-    coeff_array_m.append(coeff[0])
-    
-    
-
-cr90 = cr90[9:12] + cr90[0:9]
-cr95 = cr95[9:12] + cr95[0:9]
-cr100 = cr100[9:12] + cr100[0:9]
-cr105 = cr105[9:12] + cr105[0:9]
-cr110 = cr110[9:12] + cr110[0:9]
-
-x90 = x90[9:12] + x90[0:9]
-x95 = x95[9:12] + x95[0:9]
-x100 = x100[9:12] + x100[0:9]
-x105 = x105[9:12] + x105[0:9]
-x110 = x110[9:12] + x110[0:9]
-
-t90 = t90[9:12] + t90[0:9]
-t95 = t95[9:12] + t95[0:9]
-t100 = t100[9:12] + t100[0:9]
-t105 = t105[9:12] + t105[0:9]
-t110 = t110[9:12] + t110[0:9]
-
-coeff_array_b = coeff_array_b[9:12] + coeff_array_b[0:9]
-coeff_array_m = coeff_array_m[9:12] + coeff_array_m[0:9]
-
-# y = np.add((coeff_array[1][1]),np.multiply(coeff[0],[ x90[1],x95[1],x100[1],x105[1],x110[1] ]))
-
-# coeff2 =np.polyfit( [ x90[0],x95[0],x100[0],x105[0],x110[0] ], [ cr90[0],cr95[0],cr100[0],cr105[0],cr110[0] ], 1)
-
-# y2 = np.add((coeff_array[0][1]),np.multiply(coeff_array[0][0],[ x90[0],x95[0],x100[0],x105[0],x110[0] ]))
-
-from scipy import optimize
-        
-def test_func(x, a, c):
-    return a * np.exp(x) +c
-
-params, params_covariance = optimize.curve_fit(test_func, np.array(x90), np.array(cr90))   
-
-y90 =  test_func(np.array(x90), params[0], params[1])
-
-
-X = [x90,x95,x100,x105,x110]
-Y = [cr90,cr95,cr100,cr105,cr110]
-Z = [t90,t95,t100,t105,t110]
-
-print(Z)
-
-fig85, ax85 = plt.subplots()
-CS = ax85.contourf(X,Y,Z,12, cmap = 'viridis')
-CB = fig85.colorbar(CS)
-# ax85.clabel(CS,inline=True)
-ax85.set_ylabel("$a$",size='x-large')
-ax85.set_xlabel("$D_{max}$ (N)",size='x-large')
-# ax85.plot(x90,cr90,color='black', markersize=12, label="$h_{p} = 90$")
-# ax85.plot(x95,cr95,color='purple', markersize=12, label="$h_{p} = 95$")
-# ax85.plot(x100,cr100,color='blue', markersize=12, label="$h_{p}$ = 100")
-# ax85.plot(x105,cr105,color='red', markersize=12, label="$h_{p}$ = 105")
-# ax85.plot(x110,cr110,color='green', markersize=12, label="$h_{p}$ = 110")
-ax85.scatter(x90,cr90,color='black', label="$h_{p} = 90$")
-ax85.scatter(x95,cr95,color='purple', label="$h_{p} = 95$")
-ax85.scatter(x100,cr100,color='blue', label="$h_{p} = 100$")
-ax85.scatter(x105,cr105,color='red', label="$h_{p} = 105$")
-ax85.scatter(x110,cr110,color='green', label="$h_{p} = 110$")
-# plt.legend(fontsize=16)
-fig85.set_size_inches(10,12)
-plt.tick_params(labelsize=14)
-ax85.grid()
-
-
-# print(np.shape(X))
-
-x = []
-y = []
-z = [] 
-
-for i in X:
-    for jj in i:
-        x.append(jj)
-
-for i in Y:
-    for jj in i:
-        y.append(jj)
-
-for i in Z:
-    for jj in i:
-        z.append(jj)
-
-
-fig84 = plt.figure()
-ax84 = fig84.add_subplot(projection = '3d')
-CS = ax84.plot_trisurf(x,y,z, cmap='binary', linewidths = 0.2)
-CB = fig84.colorbar(CS)
-ax84.scatter(x90,cr90,t90, color='black', label="$h_{p} = 90$")
-ax84.scatter(x95,cr95,t95, color='purple', label="$h_{p} = 95$")
-ax84.scatter(x100,cr100,t100, color='blue', label="$h_{p} = 100$")
-ax84.scatter(x105,cr105,t105, color='red', label="$h_{p} = 105$")
-ax84.scatter(x110,cr110, t110, color='green', label="$h_{p} = 110$")
-ax84.set_ylabel("$a$",size='x-large')
-ax84.set_xlabel("$D_{max}$ (N)",size='x-large')
-plt.legend(fontsize=16)
-fig84.set_size_inches(10,12)
-plt.tick_params(labelsize=14)
-ax84.grid()
-
-
-#print(tp_lamb_tot)
-
-# fig20, ax20=plt.subplots()
-# ax20.plot(x90,cr90,color='black', linestyle='-', label="$h_{p} = 90$")
-# # ax20.plot([ x90[0],x95[0],x100[0],x105[0],x110[0] ] ,y2,color='black', linestyle='--')
-# # ax20.plot(x90,y90,color='green', linestyle='--')
-
-# ax20.plot(x95,cr95,color='purple', linestyle='-',  label="$h_{p} = 95$")
-# ax20.plot(x100,cr100,color='blue', linestyle='-',  label="$h_{p}$ = 100")
-# ax20.plot(x105,cr105,color='red', linestyle='-',  label="$h_{p}$ = 105")
-# ax20.plot(x110,cr110,color='green', linestyle='-',  label="$h_{p}$ = 110")
-# ax20.set_ylabel("$a$",size='x-large')
-# ax20.set_xlabel("$D_{max}$ (N)",size='x-large')
-# fig20.set_size_inches(10,12)
-# plt.tick_params(labelsize=14)
-# plt.legend(fontsize=16)
-# ax20.grid()
-
-# ra = [5000, 7000, 9000, 11000, 13000 ,15000, 17000 , 19000 , 21000 , 23000 , 25000 , 27000]
-# # 
-# np.polyfit( [ cr90[0],cr90[1],cr90[2],cr90[3],cr90[4] ] , [ x90[0],x90[1],x90[2],x90[3],x90[4] ] , 1)
-
-# #    y ≈ exp(-0.401) * exp(0.105 * x) = 0.670 * exp(0.105 * x)
-# # (^ biased towards small values)
-
-
-# #    y ≈ exp(1.42) * exp(0.0601 * x) = 4.12 * exp(0.0601 * x)
-# # (^ not so biased)
-
-# fig201, ax201=plt.subplots()
-# ax201.plot(ra,coeff_array_m,color='blue', linestyle='-', marker='.', markersize=12,  label="m")
-# ax201.plot(ra,coeff_array_b,color='red', linestyle='-', marker='.', markersize=12,  label="b")
-# fig201.set_size_inches(10,12)
-# plt.tick_params(labelsize=14)
-# plt.legend(fontsize=16)
-# ax201.grid()
-
-# ar90 = []
-# ar95 = []
-# ar100 = []
-# ar105 = []
-# ar110 = []
-
 # cr90 = []
 # cr95 = []
 # cr100 = []
@@ -1030,48 +841,41 @@ ax84.grid()
 # x100 = []
 # x105 = []
 # x110 = []
+
+# t90 = []
+# t95 = []
+# t100 = []
+# t105 = []
+# t110 = []
     
 # coeff_array_m = []
 
 # coeff_array_b = []
 
 # for i in range(len(ra)):
+#     cr90.append(a_tot[i][0])
+#     cr95.append(a_tot[i][1])
+#     cr100.append(a_tot[i][2])
+#     cr105.append(a_tot[i][3])
+#     cr110.append(a_tot[i][4])
     
-#     ar90.append(a_tot[i][0])
-#     ar95.append(a_tot[i][1])
-#     ar100.append(a_tot[i][2])
-#     ar105.append(a_tot[i][3])
-#     ar110.append(a_tot[i][4])
-    
-#     cr90.append(c_tot[i][0])
-#     cr95.append(c_tot[i][1])
-#     cr100.append(c_tot[i][2])
-#     cr105.append(c_tot[i][3])
-#     cr110.append(c_tot[i][4])
-    
-#     # x90.append(tp_lamb_tot[i][0])
-#     # x95.append(tp_lamb_tot[i][1])
-#     # x100.append(tp_lamb_tot[i][2])
-#     # x105.append(tp_lamb_tot[i][3])
-#     # x110.append(tp_lamb_tot[i][4])
-    
-#     x90.append(ICs_tot[i][0][1])
-#     x95.append(ICs_tot[i][1][1])
-#     x100.append(ICs_tot[i][2][1])
-#     x105.append(ICs_tot[i][3][1])
-#     x110.append(ICs_tot[i][4][1])
-    
-#     # coeff = np.polyfit( [max_D_tot[i][0],max_D_tot[i][1],max_D_tot[i][2],max_D_tot[i][3],max_D_tot[i][4] ], [a_tot[i][0],a_tot[i][1],a_tot[i][2],a_tot[i][3],a_tot[i][4]], 1)
-#     # coeff_array_b.append(coeff[1])
-#     # coeff_array_m.append(coeff[0])
-    
-    
+#     x90.append(max_D_tot[i][0])
+#     x95.append(max_D_tot[i][1])
+#     x100.append(max_D_tot[i][2])
+#     x105.append(max_D_tot[i][3])
+#     x110.append(max_D_tot[i][4])
 
-# ar90 = ar90[9:12] + ar90[0:9]
-# ar95 = ar95[9:12] + ar95[0:9]
-# ar100 = ar100[9:12] + ar100[0:9]
-# ar105 = ar105[9:12] + ar105[0:9]
-# ar110 = ar110[9:12] + ar110[0:9]
+#     t90.append(tf_lamb_tot[i][0])
+#     t95.append(tf_lamb_tot[i][1])
+#     t100.append(tf_lamb_tot[i][2])
+#     t105.append(tf_lamb_tot[i][3])
+#     t110.append(tf_lamb_tot[i][4])
+    
+#     coeff = np.polyfit( [max_D_tot[i][0],max_D_tot[i][1],max_D_tot[i][2],max_D_tot[i][3],max_D_tot[i][4] ], [a_tot[i][0],a_tot[i][1],a_tot[i][2],a_tot[i][3],a_tot[i][4]], 1)
+#     coeff_array_b.append(coeff[1])
+#     coeff_array_m.append(coeff[0])
+    
+    
 
 # cr90 = cr90[9:12] + cr90[0:9]
 # cr95 = cr95[9:12] + cr95[0:9]
@@ -1085,42 +889,240 @@ ax84.grid()
 # x105 = x105[9:12] + x105[0:9]
 # x110 = x110[9:12] + x110[0:9]
 
-# # coeff_array_b = coeff_array_b[9:12] + coeff_array_b[0:9]
-# # coeff_array_m = coeff_array_m[9:12] + coeff_array_m[0:9]
+# t90 = t90[9:12] + t90[0:9]
+# t95 = t95[9:12] + t95[0:9]
+# t100 = t100[9:12] + t100[0:9]
+# t105 = t105[9:12] + t105[0:9]
+# t110 = t110[9:12] + t110[0:9]
 
-# # y = np.add((coeff_array[1][1]),np.multiply(coeff[0],[ x90[1],x95[1],x100[1],x105[1],x110[1] ]))
+# coeff_array_b = coeff_array_b[9:12] + coeff_array_b[0:9]
+# coeff_array_m = coeff_array_m[9:12] + coeff_array_m[0:9]
 
-# # coeff2 =np.polyfit( [ x90[0],x95[0],x100[0],x105[0],x110[0] ], [ cr90[0],cr95[0],cr100[0],cr105[0],cr110[0] ], 1)
+# y = np.add((coeff_array[1][1]),np.multiply(coeff[0],[ x90[1],x95[1],x100[1],x105[1],x110[1] ]))
 
-# # y2 = np.add((coeff_array[0][1]),np.multiply(coeff_array[0][0],[ x90[0],x95[0],x100[0],x105[0],x110[0] ]))
+# coeff2 =np.polyfit( [ x90[0],x95[0],x100[0],x105[0],x110[0] ], [ cr90[0],cr95[0],cr100[0],cr105[0],cr110[0] ], 1)
+
+# y2 = np.add((coeff_array[0][1]),np.multiply(coeff_array[0][0],[ x90[0],x95[0],x100[0],x105[0],x110[0] ]))
+
+# from scipy import optimize
+        
+# def test_func(x, a, c):
+#     return a * np.exp(x) +c
+
+# params, params_covariance = optimize.curve_fit(test_func, np.array(x90), np.array(cr90))   
+
+# y90 =  test_func(np.array(x90), params[0], params[1])
 
 
-# fig20, ax20=plt.subplots()
-# ax20.plot(x90,cr90,color='black', linestyle='-', marker='.', markersize=12,  label="$r_{p} = 90$")
-# ax20.plot(x95,cr95,color='purple', linestyle='-', marker='.', markersize=12,  label="$r_{p} = 95$")
-# ax20.plot(x100,cr100,color='blue', linestyle='-', marker='.', markersize=12,  label="$r_{p}$ = 100")
-# ax20.plot(x105,cr105,color='red', linestyle='-', marker='.', markersize=12,  label="$r_{p}$ = 105")
-# ax20.plot(x110,cr110,color='green', linestyle='-', marker='.', markersize=12,  label="$r_{p}$ = 110")
-# ax20.set_ylabel("$c$",size='x-large')
-# ax20.set_xlabel("$v_{0}$",size='x-large')
-# fig20.set_size_inches(10,12)
+# X = [x90,x95,x100,x105,x110]
+# Y = [cr90,cr95,cr100,cr105,cr110]
+# Z = [t90,t95,t100,t105,t110]
+
+# print(Z)
+
+# fig85, ax85 = plt.subplots()
+# CS = ax85.contourf(X,Y,Z,12, cmap = 'viridis')
+# CB = fig85.colorbar(CS)
+# # ax85.clabel(CS,inline=True)
+# ax85.set_ylabel("$a$",size='x-large')
+# ax85.set_xlabel("$D_{max}$ (N)",size='x-large')
+# # ax85.plot(x90,cr90,color='black', markersize=12, label="$h_{p} = 90$")
+# # ax85.plot(x95,cr95,color='purple', markersize=12, label="$h_{p} = 95$")
+# # ax85.plot(x100,cr100,color='blue', markersize=12, label="$h_{p}$ = 100")
+# # ax85.plot(x105,cr105,color='red', markersize=12, label="$h_{p}$ = 105")
+# # ax85.plot(x110,cr110,color='green', markersize=12, label="$h_{p}$ = 110")
+# ax85.scatter(x90,cr90,color='black', label="$h_{p} = 90$")
+# ax85.scatter(x95,cr95,color='purple', label="$h_{p} = 95$")
+# ax85.scatter(x100,cr100,color='blue', label="$h_{p} = 100$")
+# ax85.scatter(x105,cr105,color='red', label="$h_{p} = 105$")
+# ax85.scatter(x110,cr110,color='green', label="$h_{p} = 110$")
+# # plt.legend(fontsize=16)
+# fig85.set_size_inches(10,12)
 # plt.tick_params(labelsize=14)
+# ax85.grid()
+
+
+# # print(np.shape(X))
+
+# x = []
+# y = []
+# z = [] 
+
+# for i in X:
+#     for jj in i:
+#         x.append(jj)
+
+# for i in Y:
+#     for jj in i:
+#         y.append(jj)
+
+# for i in Z:
+#     for jj in i:
+#         z.append(jj)
+
+
+# fig84 = plt.figure()
+# ax84 = fig84.add_subplot(projection = '3d')
+# CS = ax84.plot_trisurf(x,y,z, cmap='binary', linewidths = 0.2)
+# CB = fig84.colorbar(CS)
+# ax84.scatter(x90,cr90,t90, color='black', label="$h_{p} = 90$")
+# ax84.scatter(x95,cr95,t95, color='purple', label="$h_{p} = 95$")
+# ax84.scatter(x100,cr100,t100, color='blue', label="$h_{p} = 100$")
+# ax84.scatter(x105,cr105,t105, color='red', label="$h_{p} = 105$")
+# ax84.scatter(x110,cr110, t110, color='green', label="$h_{p} = 110$")
+# ax84.set_ylabel("$a$",size='x-large')
+# ax84.set_xlabel("$D_{max}$ (N)",size='x-large')
 # plt.legend(fontsize=16)
-# ax20.grid()
-
-
-# fig21, ax21=plt.subplots()
-# ax21.plot(ar90,cr90,color='black', linestyle='-', marker='.', markersize=12,  label="$r_{p} = 90$")
-# ax21.plot(ar95,cr95,color='purple', linestyle='-', marker='.', markersize=12,  label="$r_{p} = 95$")
-# ax21.plot(ar100,cr100,color='blue', linestyle='-', marker='.', markersize=12,  label="$r_{p}$ = 100")
-# ax21.plot(ar105,cr105,color='red', linestyle='-', marker='.', markersize=12,  label="$r_{p}$ = 105")
-# ax21.plot(ar110,cr110,color='green', linestyle='-', marker='.', markersize=12,  label="$r_{p}$ = 110")
-# ax21.set_ylabel("$c$",size='x-large')
-# ax21.set_xlabel("$a$",size='x-large')
-# fig21.set_size_inches(10,12)
+# fig84.set_size_inches(10,12)
 # plt.tick_params(labelsize=14)
-# plt.legend(fontsize=16)
-# ax21.grid()
+# ax84.grid()
 
 
-plt.show()
+# #print(tp_lamb_tot)
+
+# # fig20, ax20=plt.subplots()
+# # ax20.plot(x90,cr90,color='black', linestyle='-', label="$h_{p} = 90$")
+# # # ax20.plot([ x90[0],x95[0],x100[0],x105[0],x110[0] ] ,y2,color='black', linestyle='--')
+# # # ax20.plot(x90,y90,color='green', linestyle='--')
+
+# # ax20.plot(x95,cr95,color='purple', linestyle='-',  label="$h_{p} = 95$")
+# # ax20.plot(x100,cr100,color='blue', linestyle='-',  label="$h_{p}$ = 100")
+# # ax20.plot(x105,cr105,color='red', linestyle='-',  label="$h_{p}$ = 105")
+# # ax20.plot(x110,cr110,color='green', linestyle='-',  label="$h_{p}$ = 110")
+# # ax20.set_ylabel("$a$",size='x-large')
+# # ax20.set_xlabel("$D_{max}$ (N)",size='x-large')
+# # fig20.set_size_inches(10,12)
+# # plt.tick_params(labelsize=14)
+# # plt.legend(fontsize=16)
+# # ax20.grid()
+
+# # ra = [5000, 7000, 9000, 11000, 13000 ,15000, 17000 , 19000 , 21000 , 23000 , 25000 , 27000]
+# # # 
+# # np.polyfit( [ cr90[0],cr90[1],cr90[2],cr90[3],cr90[4] ] , [ x90[0],x90[1],x90[2],x90[3],x90[4] ] , 1)
+
+# # #    y ≈ exp(-0.401) * exp(0.105 * x) = 0.670 * exp(0.105 * x)
+# # # (^ biased towards small values)
+
+
+# # #    y ≈ exp(1.42) * exp(0.0601 * x) = 4.12 * exp(0.0601 * x)
+# # # (^ not so biased)
+
+# # fig201, ax201=plt.subplots()
+# # ax201.plot(ra,coeff_array_m,color='blue', linestyle='-', marker='.', markersize=12,  label="m")
+# # ax201.plot(ra,coeff_array_b,color='red', linestyle='-', marker='.', markersize=12,  label="b")
+# # fig201.set_size_inches(10,12)
+# # plt.tick_params(labelsize=14)
+# # plt.legend(fontsize=16)
+# # ax201.grid()
+
+# # ar90 = []
+# # ar95 = []
+# # ar100 = []
+# # ar105 = []
+# # ar110 = []
+
+# # cr90 = []
+# # cr95 = []
+# # cr100 = []
+# # cr105 = []
+# # cr110 = []
+
+# # x90 = []
+# # x95 = []
+# # x100 = []
+# # x105 = []
+# # x110 = []
+    
+# # coeff_array_m = []
+
+# # coeff_array_b = []
+
+# # for i in range(len(ra)):
+    
+# #     ar90.append(a_tot[i][0])
+# #     ar95.append(a_tot[i][1])
+# #     ar100.append(a_tot[i][2])
+# #     ar105.append(a_tot[i][3])
+# #     ar110.append(a_tot[i][4])
+    
+# #     cr90.append(c_tot[i][0])
+# #     cr95.append(c_tot[i][1])
+# #     cr100.append(c_tot[i][2])
+# #     cr105.append(c_tot[i][3])
+# #     cr110.append(c_tot[i][4])
+    
+# #     # x90.append(tp_lamb_tot[i][0])
+# #     # x95.append(tp_lamb_tot[i][1])
+# #     # x100.append(tp_lamb_tot[i][2])
+# #     # x105.append(tp_lamb_tot[i][3])
+# #     # x110.append(tp_lamb_tot[i][4])
+    
+# #     x90.append(ICs_tot[i][0][1])
+# #     x95.append(ICs_tot[i][1][1])
+# #     x100.append(ICs_tot[i][2][1])
+# #     x105.append(ICs_tot[i][3][1])
+# #     x110.append(ICs_tot[i][4][1])
+    
+# #     # coeff = np.polyfit( [max_D_tot[i][0],max_D_tot[i][1],max_D_tot[i][2],max_D_tot[i][3],max_D_tot[i][4] ], [a_tot[i][0],a_tot[i][1],a_tot[i][2],a_tot[i][3],a_tot[i][4]], 1)
+# #     # coeff_array_b.append(coeff[1])
+# #     # coeff_array_m.append(coeff[0])
+    
+    
+
+# # ar90 = ar90[9:12] + ar90[0:9]
+# # ar95 = ar95[9:12] + ar95[0:9]
+# # ar100 = ar100[9:12] + ar100[0:9]
+# # ar105 = ar105[9:12] + ar105[0:9]
+# # ar110 = ar110[9:12] + ar110[0:9]
+
+# # cr90 = cr90[9:12] + cr90[0:9]
+# # cr95 = cr95[9:12] + cr95[0:9]
+# # cr100 = cr100[9:12] + cr100[0:9]
+# # cr105 = cr105[9:12] + cr105[0:9]
+# # cr110 = cr110[9:12] + cr110[0:9]
+
+# # x90 = x90[9:12] + x90[0:9]
+# # x95 = x95[9:12] + x95[0:9]
+# # x100 = x100[9:12] + x100[0:9]
+# # x105 = x105[9:12] + x105[0:9]
+# # x110 = x110[9:12] + x110[0:9]
+
+# # # coeff_array_b = coeff_array_b[9:12] + coeff_array_b[0:9]
+# # # coeff_array_m = coeff_array_m[9:12] + coeff_array_m[0:9]
+
+# # # y = np.add((coeff_array[1][1]),np.multiply(coeff[0],[ x90[1],x95[1],x100[1],x105[1],x110[1] ]))
+
+# # # coeff2 =np.polyfit( [ x90[0],x95[0],x100[0],x105[0],x110[0] ], [ cr90[0],cr95[0],cr100[0],cr105[0],cr110[0] ], 1)
+
+# # # y2 = np.add((coeff_array[0][1]),np.multiply(coeff_array[0][0],[ x90[0],x95[0],x100[0],x105[0],x110[0] ]))
+
+
+# # fig20, ax20=plt.subplots()
+# # ax20.plot(x90,cr90,color='black', linestyle='-', marker='.', markersize=12,  label="$r_{p} = 90$")
+# # ax20.plot(x95,cr95,color='purple', linestyle='-', marker='.', markersize=12,  label="$r_{p} = 95$")
+# # ax20.plot(x100,cr100,color='blue', linestyle='-', marker='.', markersize=12,  label="$r_{p}$ = 100")
+# # ax20.plot(x105,cr105,color='red', linestyle='-', marker='.', markersize=12,  label="$r_{p}$ = 105")
+# # ax20.plot(x110,cr110,color='green', linestyle='-', marker='.', markersize=12,  label="$r_{p}$ = 110")
+# # ax20.set_ylabel("$c$",size='x-large')
+# # ax20.set_xlabel("$v_{0}$",size='x-large')
+# # fig20.set_size_inches(10,12)
+# # plt.tick_params(labelsize=14)
+# # plt.legend(fontsize=16)
+# # ax20.grid()
+
+
+# # fig21, ax21=plt.subplots()
+# # ax21.plot(ar90,cr90,color='black', linestyle='-', marker='.', markersize=12,  label="$r_{p} = 90$")
+# # ax21.plot(ar95,cr95,color='purple', linestyle='-', marker='.', markersize=12,  label="$r_{p} = 95$")
+# # ax21.plot(ar100,cr100,color='blue', linestyle='-', marker='.', markersize=12,  label="$r_{p}$ = 100")
+# # ax21.plot(ar105,cr105,color='red', linestyle='-', marker='.', markersize=12,  label="$r_{p}$ = 105")
+# # ax21.plot(ar110,cr110,color='green', linestyle='-', marker='.', markersize=12,  label="$r_{p}$ = 110")
+# # ax21.set_ylabel("$c$",size='x-large')
+# # ax21.set_xlabel("$a$",size='x-large')
+# # fig21.set_size_inches(10,12)
+# # plt.tick_params(labelsize=14)
+# # plt.legend(fontsize=16)
+# # ax21.grid()
+
+
+# plt.show()
