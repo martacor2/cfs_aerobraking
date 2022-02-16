@@ -37,6 +37,7 @@ hddot0 = np.array(csv_file["hddot0"])
 tf_sim = np.array(csv_file["tf_sim"])
 drag0 = np.array(csv_file["Initial drag"])
 drag_int = np.array(csv_file["Integral drag"])
+vp = np.array(csv_file["Periapsis velocity"])
 
 print(ra)
 
@@ -64,6 +65,8 @@ def array_conversion(x):
 
 
 t90, t95, t100, t105, t110 = array_conversion(tf_sim)
+
+vp90, vp95, vp100, vp105, vp110 = array_conversion(vp)
 
 a_coeff90 = a_coeff[0:-1:5]
 a_coeff95 = a_coeff[1:-1:5]
@@ -178,26 +181,26 @@ drag_int110 = drag_int110.tolist()[9:12] + drag_int110.tolist()[0:9]
 fig_acoeff = plt.figure("a_coeff", dpi=500, figsize=[6,4])
 plt.figure("a_coeff")
 
-for i in range(0, 12):
-    # x = [drag_int90[i], drag_int95[i], drag_int100[i], drag_int105[i], drag_int110[i]]
-    x = [drag_int90[i], drag_int110[i]]
+# for i in range(0, 12):
+#     # x = [drag_int90[i], drag_int95[i], drag_int100[i], drag_int105[i], drag_int110[i]]
+#     x = [drag_int90[i], drag_int110[i]]
 
-    # y = [a_coeff90[i], a_coeff95[i], a_coeff100[i], a_coeff105[i], a_coeff110[i]]
-    y = [a_coeff90[i], a_coeff110[i]]
+#     # y = [a_coeff90[i], a_coeff95[i], a_coeff100[i], a_coeff105[i], a_coeff110[i]]
+#     y = [a_coeff90[i], a_coeff110[i]]
 
-    plt.plot(x, y,'k--', linewidth = "1")
+#     plt.plot(x, y,'k--', linewidth = "1")
 
-plt.scatter(drag_int90, a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
-plt.scatter(drag_int95, a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
-plt.scatter(drag_int100, a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
-plt.scatter(drag_int105, a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
-plt.scatter(drag_int110, a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')  
+plt.scatter(np.divide(drag_int90, vp90), a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
+plt.scatter(np.divide(drag_int95, vp95), a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
+plt.scatter(np.divide(drag_int100, vp100), a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
+plt.scatter(np.divide(drag_int105, vp105), a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
+plt.scatter(np.divide(drag_int110, vp110), a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')  
 
 # plt.scatter(y0, a_coeff, color='blue', marker='o')    
 plt.legend();plt.grid()
-plt.xlabel("Integral of Drag (Ns)")
+plt.xlabel("Integral of Drag / $v_p$ (Ns$^2$/m)")
 plt.ylabel("$a$")
-fig_acoeff.savefig("all_sims_figures/a_coeff_drag_integral.png")
+fig_acoeff.savefig("all_sims_figures/a_coeff_drag_integral_vp.png")
 
 # X = [v090,v095,v0100,v0105,v0110]
 # X = [y090,y095,y0100,y0105,y0110]

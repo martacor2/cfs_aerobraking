@@ -37,6 +37,8 @@ max_D_tot = []
 hddot0_tot=[]
 ICs_tot = []
 drag_integral_tot = []
+vp_tot = []
+
 
 #constants
 aoa=np.pi/2
@@ -75,6 +77,7 @@ for folder in sorted(os.listdir(directory)):
     tf_sim_array=[]
     max_D_array=[]
     drag_integral = []
+    vp_array = []
 
     for folder2 in sorted(os.listdir(os.path.join(directory,folder))):
         #check each folder in the results folder
@@ -488,6 +491,7 @@ for folder in sorted(os.listdir(directory)):
 
         drag_int = integrate.simps(drag_sim, x = t_simulation)
         drag_integral.append(drag_int)
+        vp_array.append(vp)
         
 
     diff_tot.append([final_diff[3],final_diff[4],final_diff[0],final_diff[1],final_diff[2]])
@@ -501,6 +505,8 @@ for folder in sorted(os.listdir(directory)):
     tf_sim_tot.append([tf_sim_array[3],tf_sim_array[4],tf_sim_array[0],tf_sim_array[1],tf_sim_array[2]]) 
     max_D_tot.append([max_D_array[3],max_D_array[4],max_D_array[0],max_D_array[1],max_D_array[2]]) 
     drag_integral_tot.append([drag_integral[3],drag_integral[4],drag_integral[0],drag_integral[1],drag_integral[2]])
+    vp_tot.append([vp_array[3],vp_array[4],vp_array[0],vp_array[1],vp_array[2]])
+
 
 r90 = []
 r95 = []
@@ -679,12 +685,12 @@ import csv
 
 print(tf_sim_tot)
 
-header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral Drag"]
+header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral drag", "Periapsis velocity"]
 rp = [90,95,100,105,110]
 
 print(np.size(hddot0_tot))
 
-data = np.empty((61,14))
+data = np.empty((61,15))
 
 ct = 0
 
@@ -706,6 +712,7 @@ for i in range(len(ra)):
         data[ct][11] = tf_sim_tot[i][j]
         data[ct][12] = max_D_tot[i][j]
         data[ct][13] = drag_integral_tot[i][j]
+        data[ct][14] = vp_tot[i][j]
         
         ct = ct+1
 
