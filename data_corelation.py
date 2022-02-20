@@ -107,17 +107,17 @@ plt.figure("a_coeff")
 
 #     plt.plot(x, y,'k--', linewidth = "1")
 
-plt.scatter(drag_int_hor90, a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
-plt.scatter(drag_int_hor95, a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
-plt.scatter(drag_int_hor100, a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
-plt.scatter(drag_int_hor105, a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
-plt.scatter(drag_int_hor110, a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')  
+plt.scatter(y090, c_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
+plt.scatter(y095, c_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
+plt.scatter(y0100, c_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
+plt.scatter(y0105, c_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
+plt.scatter(y0110, c_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')  
 
 # plt.scatter(y0, a_coeff, color='blue', marker='o')    
 plt.legend();plt.grid()
-plt.xlabel("Horizontal Drag Component (N)")
-plt.ylabel("$a$")
-fig_acoeff.savefig("all_views/a_coefficient/a_coeff_drag_integral_hor.png")
+plt.xlabel(r"$\gamma_0$ (rad)")
+plt.ylabel("$c$")
+fig_acoeff.savefig("all_views/c_coefficient/c_coeff_y0.png")
 
 # X = [v090,v095,v0100,v0105,v0110]
 # X = [y090,y095,y0100,y0105,y0110]
