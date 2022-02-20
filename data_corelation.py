@@ -77,7 +77,7 @@ hddot090, hddot095, hddot0100, hddot0105, hddot0110 = array_conversion(hddot0)
 drag090, drag095, drag0100, drag0105, drag0110 = array_conversion(drag0)
 energy90, energy95, energy100, energy105, energy110 = array_conversion(energy)
 drag_int90, drag_int95, drag_int100, drag_int105, drag_int110 = array_conversion(drag_int)
-drag_int_no_v90, drag_int_no_vt95, drag_int_no_v100, drag_int_no_v105, drag_int_no_v110 = array_conversion(drag_int_no_v)
+drag_int_no_v90, drag_int_no_v95, drag_int_no_v100, drag_int_no_v105, drag_int_no_v110 = array_conversion(drag_int_no_v)
 drag_int_ver90, drag_int_ver95, drag_int_ver100, drag_int_ver105, drag_int_ver110 = array_conversion(drag_int_ver)
 drag_int_hor90, drag_int_hor95, drag_int_hor100, drag_int_hor105, drag_int_hor110 = array_conversion(drag_int_hor)
 
@@ -107,17 +107,17 @@ plt.figure("a_coeff")
 
 #     plt.plot(x, y,'k--', linewidth = "1")
 
-plt.scatter(drag_int90, a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
-plt.scatter(drag_int95, a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
-plt.scatter(drag_int100, a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
-plt.scatter(drag_int105, a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
-plt.scatter(drag_int110, a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')  
+plt.scatter(drag_int_hor90, a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
+plt.scatter(drag_int_hor95, a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
+plt.scatter(drag_int_hor100, a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
+plt.scatter(drag_int_hor105, a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
+plt.scatter(drag_int_hor110, a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')  
 
 # plt.scatter(y0, a_coeff, color='blue', marker='o')    
 plt.legend();plt.grid()
-plt.xlabel("Integral of Drag (N)")
+plt.xlabel("Horizontal Drag Component (N)")
 plt.ylabel("$a$")
-fig_acoeff.savefig("all_views/a_coeff_drag_integral.png")
+fig_acoeff.savefig("all_views/a_coefficient/a_coeff_drag_integral_hor.png")
 
 # X = [v090,v095,v0100,v0105,v0110]
 # X = [y090,y095,y0100,y0105,y0110]
