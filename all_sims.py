@@ -38,6 +38,9 @@ hddot0_tot=[]
 ICs_tot = []
 drag_integral_tot = []
 vp_tot = []
+drag_integral_no_v_tot = []
+drag_integral_hor_tot = []
+drag_integral_ver_tot = []
 
 
 #constants
@@ -78,6 +81,11 @@ for folder in sorted(os.listdir(directory)):
     max_D_array=[]
     drag_integral = []
     vp_array = []
+
+    drag_integral_no_v = []
+    drag_integral_hor = []
+    drag_integral_ver = []
+
 
     for folder2 in sorted(os.listdir(os.path.join(directory,folder))):
         #check each folder in the results folder
@@ -491,8 +499,18 @@ for folder in sorted(os.listdir(directory)):
 
         drag_int = integrate.simps(drag_sim, x = t_simulation)
         drag_integral.append(drag_int)
+
         vp_array.append(vp)
-        
+
+        drag_int_no_v = integrate.simps(np.divide(drag_sim,v_sim**2), x = t_simulation)
+        drag_integral_no_v.append(drag_int_no_v)
+
+        drag_int_ver = integrate.simps(np.multiply(drag_sim,np.sin(y_sim)), x = t_simulation)
+        drag_integral_ver.append(drag_int_ver)
+
+        drag_int_hor = integrate.simps(np.multiply(drag_sim,np.cos(y_sim)), x = t_simulation)
+        drag_integral_hor.append(drag_int_hor)
+            
 
     diff_tot.append([final_diff[3],final_diff[4],final_diff[0],final_diff[1],final_diff[2]])
     
@@ -504,6 +522,9 @@ for folder in sorted(os.listdir(directory)):
     tp_lamb_tot.append([tp_lamb_array[3],tp_lamb_array[4],tp_lamb_array[0],tp_lamb_array[1],tp_lamb_array[2]])
     tf_sim_tot.append([tf_sim_array[3],tf_sim_array[4],tf_sim_array[0],tf_sim_array[1],tf_sim_array[2]]) 
     max_D_tot.append([max_D_array[3],max_D_array[4],max_D_array[0],max_D_array[1],max_D_array[2]]) 
+    drag_integral_no_v_tot.append([drag_integral_no_v[3],drag_integral_no_v[4],drag_integral_no_v[0],drag_integral_no_v[1],drag_integral_no_v[2]])
+    drag_integral_ver_tot.append([drag_integral_ver[3],drag_integral_ver[4],drag_integral_ver[0],drag_integral_ver[1],drag_integral_ver[2]])
+    drag_integral_hor_tot.append([drag_integral_hor[3],drag_integral_hor[4],drag_integral_hor[0],drag_integral_hor[1],drag_integral_hor[2]])
     drag_integral_tot.append([drag_integral[3],drag_integral[4],drag_integral[0],drag_integral[1],drag_integral[2]])
     vp_tot.append([vp_array[3],vp_array[4],vp_array[0],vp_array[1],vp_array[2]])
 
@@ -685,12 +706,13 @@ import csv
 
 print(tf_sim_tot)
 
-header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral drag", "Periapsis velocity"]
+# header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral drag", "Periapsis velocity", "Integral drag no v", "Integral hor drag", "Integral ver drag"]
+header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral drag", "Integral hor drag", "Integral ver drag", "Integral drag no v", "Periapsis velocity"]
 rp = [90,95,100,105,110]
 
 print(np.size(hddot0_tot))
 
-data = np.empty((61,15))
+data = np.empty((61,len(header)))
 
 ct = 0
 
@@ -712,7 +734,10 @@ for i in range(len(ra)):
         data[ct][11] = tf_sim_tot[i][j]
         data[ct][12] = max_D_tot[i][j]
         data[ct][13] = drag_integral_tot[i][j]
-        data[ct][14] = vp_tot[i][j]
+        data[ct][14] = drag_integral_hor_tot[i][j]
+        data[ct][15] = drag_integral_ver_tot[i][j]
+        data[ct][16] = drag_integral_no_v_tot[i][j]
+        data[ct][17] = vp_tot[i][j]
         
         ct = ct+1
 
