@@ -120,11 +120,11 @@ plt.figure("a_coeff")
 # fig_acoeff.savefig("all_views/c_coefficient/c_coeff_y0.png")
 
 
-# plt.scatter(drag_int_no_v90, a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
-plt.scatter(drag_int_no_v95, a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
-plt.scatter(drag_int_no_v100, a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
-plt.scatter(drag_int_no_v105, a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
-plt.scatter(drag_int_no_v110, a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')  
+# plt.scatter(np.divide(drag_int_no_v90,t90), a_coeff90, color='green', marker='o', label = '$h_p = 90$ km')   
+plt.scatter(np.divide(drag_int_no_v95,t95), a_coeff95, color='red', marker='o', label = '$h_p = 95$ km')   
+plt.scatter(np.divide(drag_int_no_v100,t100), a_coeff100, color='blue', marker='o',  label = '$h_p = 100$ km')   
+plt.scatter(np.divide(drag_int_no_v105,t105), a_coeff105, color='orange', marker='o', label = '$h_p = 105$ km')   
+plt.scatter(np.divide(drag_int_no_v110,t110), a_coeff110, color='purple', marker='o',  label = '$h_p = 110$ km')  
 
 # linear_fit = np.polyfit( drag_int_ver,a_coeff, 1)
 # m = linear_fit[0]
@@ -136,9 +136,9 @@ plt.scatter(drag_int_no_v110, a_coeff110, color='purple', marker='o',  label = '
 # plt.plot(x_plot,y_plot, label = f"y = {np.round(m,5)}x + {np.round(b,5)}" )
 
 plt.legend();plt.grid()
-plt.xlabel(r"Integral of Drag w/o velocity (N s$^2$/m$^2$)")
+plt.xlabel(r"Integral of Drag w/o velocity / Time of Flight (N s/m$^2$)")
 plt.ylabel("$a$")
-fig_acoeff.savefig("all_views/a_coefficient/a_coeff_drag_integral_no_v.png")
+fig_acoeff.savefig("all_views/a_coefficient/a_coeff_drag_integral_no_v_by_tf.png")
 
 # X = [v090,v095,v0100,v0105,v0110]
 # X = [y090,y095,y0100,y0105,y0110]
