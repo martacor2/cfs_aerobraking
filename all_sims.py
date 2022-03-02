@@ -23,7 +23,7 @@ amplitude=[]
 start=[]
 c_lamb=[]
 c_sim=[]
-energy_d=[]
+energy_array=[]
 
 diff_array = []
 diff_array_2 = []
@@ -86,6 +86,8 @@ for folder in sorted(os.listdir(directory)):
     drag_integral_hor = []
     drag_integral_ver = []
 
+    energy_ra = []
+
 
     for folder2 in sorted(os.listdir(os.path.join(directory,folder))):
         #check each folder in the results folder
@@ -95,10 +97,10 @@ for folder in sorted(os.listdir(directory)):
                 csv_file=pd.read_csv(os.path.join(directory,folder,folder2,file))
             files=data_gathering(csv_file)
             #altitude
-            h_sim, v_sim, y_sim, f_sim, a_sim, e_sim, r_sim, t_sim, rho_sim = files[0:9]
+            h_sim, v_sim, y_sim, f_sim, a_sim, e_sim, r_sim, t_sim, rho_sim, energy_sim = files[0:10]
         
-            h0,v0,y0,f0,a0,e0,r0,t0,rho0 = files[9]
-            hf,vf,yf,ff,af,ef,rf,tf,rhof = files[10]
+            h0,v0,y0,f0,a0,e0,r0,t0,rho0,energy0 = files[10]
+            hf,vf,yf,ff,af,ef,rf,tf,rhof, energyf = files[11]
             
             index = np.argmin(h_sim)    
             #periapsis data using altitude
@@ -511,6 +513,7 @@ for folder in sorted(os.listdir(directory)):
         drag_int_hor = integrate.simps(np.multiply(drag_sim,np.cos(y_sim)), x = t_simulation)
         drag_integral_hor.append(drag_int_hor)
             
+        energy_ra.append(energy_sim[0] - energy_sim[-1])
 
     diff_tot.append([final_diff[3],final_diff[4],final_diff[0],final_diff[1],final_diff[2]])
     
@@ -527,6 +530,7 @@ for folder in sorted(os.listdir(directory)):
     drag_integral_hor_tot.append([drag_integral_hor[3],drag_integral_hor[4],drag_integral_hor[0],drag_integral_hor[1],drag_integral_hor[2]])
     drag_integral_tot.append([drag_integral[3],drag_integral[4],drag_integral[0],drag_integral[1],drag_integral[2]])
     vp_tot.append([vp_array[3],vp_array[4],vp_array[0],vp_array[1],vp_array[2]])
+    energy_array.append([energy_ra[3],energy_ra[4],energy_ra[0],energy_ra[1],energy_ra[2]])
 
 
 r90 = []
@@ -707,7 +711,7 @@ import csv
 print(tf_sim_tot)
 
 # header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral drag", "Periapsis velocity", "Integral drag no v", "Integral hor drag", "Integral ver drag"]
-header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral drag", "Integral hor drag", "Integral ver drag", "Integral drag no v", "Periapsis velocity"]
+header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral drag", "Integral hor drag", "Integral ver drag", "Integral drag no v", "Periapsis velocity", "Energy Diff"]
 rp = [90,95,100,105,110]
 
 print(np.size(hddot0_tot))
@@ -738,6 +742,7 @@ for i in range(len(ra)):
         data[ct][15] = drag_integral_ver_tot[i][j]
         data[ct][16] = drag_integral_no_v_tot[i][j]
         data[ct][17] = vp_tot[i][j]
+        data[ct][18] = energy_array[i][j]
         
         ct = ct+1
 

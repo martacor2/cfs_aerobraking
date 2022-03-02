@@ -21,13 +21,14 @@ def data_gathering(csv_file):
     e_sim = np.array(csv_file["e"])
     r_sim = np.array(csv_file['pos_ii_mag'])
     rho_sim = np.array(csv_file['rho'])
+    energy_sim = np.array(csv_file['energy'])
     
     #begin data collection at h0=160 km
     data=np.where(h_sim<=160000)[0].tolist()
     initial=data[0]
     
     if initial != 0:
-        w0=init(h_sim,v_sim,y_sim,f_sim,a_sim,e_sim,r_sim,t_sim,rho_sim)
+        w0=init(h_sim,v_sim,y_sim,f_sim,a_sim,e_sim,r_sim,t_sim,rho_sim, energy_sim)
         h0=w0[0]
         v0=w0[1]
         y0=w0[2]
@@ -37,6 +38,7 @@ def data_gathering(csv_file):
         r0=w0[6]
         t0=w0[7]
         rho0=w0[8]
+        energy0 = w0[9]
         
         h_sim = np.insert(h_sim[initial:],0,h0)
         v_sim = np.insert(v_sim[initial:],0,v0)
@@ -47,6 +49,7 @@ def data_gathering(csv_file):
         r_sim = np.insert(r_sim[initial:],0,r0)
         t_sim = np.insert(t_sim[initial:],0,t0)
         rho_sim = np.insert(rho_sim[initial:],0,rho0)
+        energy_sim = np.insert(energy_sim[initial:],0,energy0)
         
     else:
         h0=h_sim[0]
@@ -58,8 +61,9 @@ def data_gathering(csv_file):
         e0=e_sim[0]
         r0=r_sim[0]
         rho0=rho_sim[0]
+        energy0 = energy_sim[0]
         
-    initial_conditions=[h0,v0,y0,f0,a0,e0,r0,t0,rho0]
+    initial_conditions=[h0,v0,y0,f0,a0,e0,r0,t0,rho0,energy0]
     
     #data collection ends at 160 km    
     data=np.where(h_sim<=160000)[0].tolist()
@@ -67,7 +71,7 @@ def data_gathering(csv_file):
     final=data[-1]    
         
     if final != x:
-        wf=fin(h_sim,v_sim,y_sim,f_sim,a_sim,e_sim,r_sim,t_sim,rho_sim)
+        wf=fin(h_sim,v_sim,y_sim,f_sim,a_sim,e_sim,r_sim,t_sim,rho_sim, energy_sim)
         hf=wf[0]
         vf=wf[1]
         yf=wf[2]
@@ -77,6 +81,7 @@ def data_gathering(csv_file):
         rf=wf[6]
         tf=wf[7]
         rhof=wf[8]
+        energyf=wf[9]
         
         h_sim = np.insert(h_sim[:final+1],np.size(h_sim[:final+1]),hf)
         v_sim = np.insert(v_sim[:final+1],np.size(v_sim[:final+1]),vf)
@@ -87,6 +92,7 @@ def data_gathering(csv_file):
         r_sim = np.insert(r_sim[:final+1],np.size(r_sim[:final+1]),rf)
         t_sim = np.insert(t_sim[:final+1],np.size(t_sim[:final+1]),tf)
         rho_sim = np.insert(rho_sim[:final+1],np.size(rho_sim[:final+1]),rhof)
+        energy_sim = np.insert(energy_sim[:final+1],np.size(energy_sim[:final+1]),energyf)
         
     else:
         hf=h_sim[-1]
@@ -98,13 +104,14 @@ def data_gathering(csv_file):
         ef=e_sim[-1]
         rf=r_sim[-1]
         rhof=rho_sim[-1]
+        energyf=energy_sim[-1]
         
-    final_conditions=[hf,vf,yf,ff,af,ef,rf,tf,rhof]
+    final_conditions=[hf,vf,yf,ff,af,ef,rf,tf,rhof, energyf]
     
-    return(h_sim,v_sim,y_sim,f_sim,a_sim,e_sim,r_sim,t_sim,rho_sim,initial_conditions,final_conditions)
+    return(h_sim,v_sim,y_sim,f_sim,a_sim,e_sim,r_sim,t_sim,rho_sim,energy_sim,initial_conditions,final_conditions)
            
     
-def init(h,v,y,f,a,e,r,time,rho):
+def init(h,v,y,f,a,e,r,time,rho, energy):
     
     data=np.where(h<=160000)[0].tolist()
     ind1=data[0]-1
@@ -134,11 +141,14 @@ def init(h,v,y,f,a,e,r,time,rho):
     
     prho=np.polyfit([time[ind1],time[ind2]],[rho[ind1],rho[ind2]],deg=1)
     rho0=t0*prho[0]+prho[1]
+
+    penergy=np.polyfit([time[ind1],time[ind2]],[energy[ind1],energy[ind2]],deg=1)
+    energy0=t0*penergy[0]+penergy[1]
     
-    return [h0,v0,y0,f0,a0,e0,r0,t0,rho0]
+    return [h0,v0,y0,f0,a0,e0,r0,t0,rho0, energy0]
 
 
-def fin(h,v,y,f,a,e,r,time,rho):
+def fin(h,v,y,f,a,e,r,time,rho,energy):
     
     data=np.where(h<=160000)[0].tolist()
     ind1=data[-1]
@@ -169,7 +179,10 @@ def fin(h,v,y,f,a,e,r,time,rho):
     prho=np.polyfit([time[ind1],time[ind2]],[rho[ind1],rho[ind2]],deg=1)
     rhof=tf*prho[0]+prho[1]
     
-    return [hf,vf,yf,ff,af,ef,rf,tf,rhof]
+    penergy=np.polyfit([time[ind1],time[ind2]],[energy[ind1],energy[ind2]],deg=1)
+    energyf=tf*penergy[0]+penergy[1]
+    
+    return [hf,vf,yf,ff,af,ef,rf,tf,rhof, energyf]
 
 def perturbation_data(csv_file):
     h_sim = np.array(csv_file["alt"])
