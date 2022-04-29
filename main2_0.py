@@ -30,10 +30,9 @@ CL_0=0.1
 Sref=11 #m^2
 
 #change path to appropriate folder
-folder='9000'
-folder2='Results_ctrl=0_ra=9000_rp=90.0_hl=0.1_90deg'
+folder2='Results_ctrl=0_ra=11000_rp=90.0_hl=0.150_90.0deg'
 
-directory = "DragPassageResults/"+folder+"/"+folder2
+directory = "ClosedFormSol_MarsGram/"+folder2
 
 #check each folder in the results folder
 for file in sorted(os.listdir(directory)):
@@ -43,10 +42,11 @@ for file in sorted(os.listdir(directory)):
 
     files = data_gathering(csv_file)
     #altitude
-    h_sim, v_sim, y_sim, f_sim, a_sim, e_sim, r_sim, t_sim, rho_sim = files[0:9]
-
-    h0,v0,y0,f0,a0,e0,r0,t0,rho0 = files[9]
-    hf,vf,yf,ff,af,ef,rf,tf,rhof = files[10]
+    h_sim, v_sim, y_sim, f_sim, a_sim, e_sim, r_sim, t_sim, rho_sim, energy_sim = files[0:10]
+        
+    h0,v0,y0,f0,a0,e0,r0,t0,rho0,energy0 = files[10]
+    hf,vf,yf,ff,af,ef,rf,tf,rhof, energyf = files[11]
+    
     
     index = np.argmin(h_sim)    
     #periapsis data using altitude
@@ -448,7 +448,7 @@ ax1.plot(t_simulation,tot_error,color='green', label="$Error$")
 # ax1.plot([delta_t_lamb,delta_t_lamb], [np.max(tot_error), np.min(tot_error)], "--")
 ax1.plot(np.add(x,delta_t_lamb/2), error_app, color='red', label="$Approximation$")
 
-ax1.set_title("Total error vs time | "+folder2[15:-13],size='xx-large')
+ax1.set_title("Total error vs time | "+folder2[15:-17],size='xx-large')
 ax1.set_xlim(0)
 ax1.set_ylabel("$(\ddot{h}_{simplified} - \ddot{r}_{RE}) / \ddot{r}_{RE}$ (m/s$^2$)",size='x-large')
 ax1.set_xlabel("Time (sec)",size='x-large')
@@ -472,14 +472,14 @@ ax2.plot(t_simulation,hddot_app,color='green', label="$\ddot{h}_{simplified}$")
 # ax2.plot(t_simulation,par_app,color='red', label="parabola approx")
 # ax2.plot(pt3[0],pt3[1], 'o',color='orange',markersize=10)
 
-ax2.plot(t_simulation, rddotOM, color='cyan', label="$\ddot{r}_{OM}$")
+# ax2.plot(t_simulation, rddotOM, color='cyan', label="$\ddot{r}_{OM}$")
 # ax2.plot(t_lamb, rddotLAMB, color='grey', label="$\ddot{r}_{Lambert}$")
 ax2.plot(t_lamb, rddotLAMB_w_LD, color='blue', label="$\ddot{r}_{RE}$")
 # ax2.plot(pt1[0],pt1[1], 'o',color='orange',markersize=10)
 # ax2.plot(pt2[0],pt2[1], 'o',color='orange',markersize=10)
 # ax2.plot(pt3[0],pt3[1], 'o',color='orange',markersize=10)
 # ax2.plot(tp_sim,hddot_ff[index],'o',color='orange',markersize=10)
-ax2.set_title("$\ddot{h}$ vs time | "+folder2[15:-13],size='xx-large')
+ax2.set_title("$\ddot{h}$ vs time | "+folder2[15:-17],size='xx-large')
 ax2.set_xlim(0)
 ax2.set_ylabel("$\ddot{h}$ (m/s$^2$)",size='x-large')
 ax2.set_xlabel("Time (sec)",size='x-large')
@@ -504,7 +504,7 @@ ax3.plot(t_simulation,vel_km6,label="Closed-Form Solution 6", color='red')
 
 ax3.plot(t_lamb, v_lambert, color='grey', label="$v_{Lambert}$")
 
-ax3.set_title("Velocity "+folder2[15:-13],size='x-large')
+ax3.set_title("Velocity "+folder2[15:-17],size='x-large')
 ax3.set_xlim(0)
 ax3.set_ylabel("Velocity (m/s)",size='x-large')
 ax3.set_xlabel("Time (sec)",size='x-large')
@@ -521,7 +521,7 @@ fig3, ax3=plt.subplots()
 ax3.plot(t_simulation,rho_sim,label="Simulation")
 ax3.plot(t_simulation, rho_exp_model, color='grey', label="$rho_{exp}$")
 
-ax3.set_title("Density "+folder2[15:-13],size='x-large')
+ax3.set_title("Density "+folder2[15:-17],size='x-large')
 ax3.set_xlim(0)
 ax3.set_ylabel("Density (kg/m$^3$)",size='x-large')
 ax3.set_xlabel("Time (sec)",size='x-large')
@@ -534,7 +534,7 @@ ax3.grid()
 fig3, ax3=plt.subplots()
 ax3.plot(t_simulation,drag_sim,label="Simulation")
 ax3.plot(t_simulation,drag_sim,label="Simulation")
-ax3.set_title("Drag "+folder2[15:-13],size='x-large')
+ax3.set_title("Drag "+folder2[15:-17],size='x-large')
 ax3.set_xlim(0)
 ax3.set_ylabel("Drag (N)",size='x-large')
 ax3.set_xlabel("Time (sec)",size='x-large')

@@ -85,7 +85,7 @@ energy_diff90, energy_diff95, energy_diff100, energy_diff105, energy_diff110 = a
 
 
 print(energy90)
-print(energy_diff90)
+print(energy_diff90) 
 
 fig_acoeff = plt.figure("a_coeff", dpi=500, figsize=[6,4])
 plt.figure("a_coeff")
