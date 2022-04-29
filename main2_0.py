@@ -30,9 +30,10 @@ CL_0=0.1
 Sref=11 #m^2
 
 #change path to appropriate folder
+folder = "11000"
 folder2='Results_ctrl=0_ra=11000_rp=90.0_hl=0.150_90.0deg'
 
-directory = "ClosedFormSol_MarsGram/"+folder2
+directory = "ClosedFormSol_MarsGram/"+folder+"/"+folder2
 
 #check each folder in the results folder
 for file in sorted(os.listdir(directory)):

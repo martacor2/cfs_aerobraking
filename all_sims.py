@@ -65,7 +65,7 @@ time_array = []
 ra = [5000, 7000, 9000, 11000, 13000, 15000, 17000, 19000, 21000, 23000, 25000, 27000]
 
 
-directory = "DragPassageResults"
+directory = "ClosedFormSol_MarsGram"
 
 
 for folder in sorted(os.listdir(directory)):
