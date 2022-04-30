@@ -548,3 +548,6 @@ Drag = (np.max(v_lambert)**2)*np.max(rho_exp(h_lambert))/2*Sref*CD_0*aoa
 print(aoa)
 
 print(np.min(h_sim))
+
+labels  = np.array(range(5000,41000,1000))
+print(labels[-2])
