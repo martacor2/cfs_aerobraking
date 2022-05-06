@@ -63,12 +63,13 @@ time_array = []
 
 
 ra  = np.array(range(5000,41000,1000))
+rp = np.array(range(90,124,1))
 
 ra_list = []
 
 
 directory = "ClosedFormSol_MarsGram"
-
+track = 0
 
 for folder in sorted(os.listdir(directory)):
     
@@ -91,6 +92,11 @@ for folder in sorted(os.listdir(directory)):
     energy_ra = []
 
     rp_list = []
+
+    if track ==6:
+        break
+
+    track = track+1
 
 
     for folder2 in sorted(os.listdir(os.path.join(directory,folder))):
@@ -542,7 +548,6 @@ for folder in sorted(os.listdir(directory)):
     vp_array = sorting_fun(vp_array)
     energy_ra = sorting_fun(energy_ra)
 
-
     diff_tot.append([final_diff])
     a_tot.append([a_array])
     b_tot.append([b_array])
@@ -568,20 +573,34 @@ for folder in sorted(os.listdir(directory)):
 # r100 = []
 # r105 = []
 # r110 = []
-    
-# for i in range(len(ra)):
+
+# there are 34 rps
+
+def rp_sorting(x):
+    rp_values = []
+    for i in range(len(ra_list)):
+        for jj in range(len(rp)):
+            rp_values.append(x[i][jj])
+
+    for i in range(len(ra_list)):
+        rp_values[i] = rp_values[i][31:] + rp_values[i][0:31]
+
+    return rp_values
+
+
+# for i in range(len(ra_list)):
 #     r90.append(diff_tot[i][0])
-#     r95.append(diff_tot[i][1])
-#     r100.append(diff_tot[i][2])
-#     r105.append(diff_tot[i][3])
-#     r110.append(diff_tot[i][4])
+#     r95.append(diff_tot[i][5])
+#     r100.append(diff_tot[i][10])
+#     r105.append(diff_tot[i][15])
+#     r110.append(diff_tot[i][20])
     
 
-# r90 = r90[9:12] + r90[0:9]
-# r95 = r95[9:12] + r95[0:9]
-# r100 = r100[9:12] + r100[0:9]
-# r105 = r105[9:12] + r105[0:9]
-# r110 = r110[9:12] + r110[0:9]
+# r90 = r90[6:] + r90[0:6]
+# r95 = r95[6:] + r95[0:6]
+# r100 = r100[6:] + r100[0:6]
+# r105 = r105[6:] + r105[0:6]
+# r110 = r110[6:] + r110[0:6]
 
 # # fig20, ax20=plt.subplots()
 # # ax20.plot(ra,r90,color='black', linestyle='-', marker='.', markersize=12,  label="$h_{p} = 90$")
@@ -741,50 +760,69 @@ for folder in sorted(os.listdir(directory)):
 
 # print(tf_sim_tot)
 
-# # header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral drag", "Periapsis velocity", "Integral drag no v", "Integral hor drag", "Integral ver drag"]
-# header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral drag", "Integral hor drag", "Integral ver drag", "Integral drag no v", "Periapsis velocity", "Energy Diff"]
-# rp = [90,95,100,105,110]
+# header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral drag", "Periapsis velocity", "Integral drag no v", "Integral hor drag", "Integral ver drag"]
+header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral drag", "Integral hor drag", "Integral ver drag", "Integral drag no v", "Periapsis velocity", "Energy Diff"]
 
-# print(np.size(hddot0_tot))
+print(np.size(hddot0_tot))
 
-# data = np.empty((61,len(header)))
+data = np.empty(((36*33)+1,len(header)))
 
-# ct = 0
+ct = 0
 
-# ra = [11000, 13000 ,15000, 17000 , 19000 , 21000 , 23000 , 25000 , 27000, 5000, 7000, 9000]
+# a_tot = rp_sorting(a_tot)
+# b_tot = rp_sorting(b_tot)
+# c_tot = rp_sorting(c_tot)
 
-# for i in range(len(ra)):
-#     for j in range(len(rp)):
-#         data[ct][0] = ra[i]
-#         data[ct][1] = rp[j]
-#         data[ct][2] = a_tot[i][j]
-#         data[ct][3] = b_tot[i][j]
-#         data[ct][4] = c_tot[i][j]
-#         data[ct][5] = ICs_tot[i][j][0]
-#         data[ct][6] = ICs_tot[i][j][1]
-#         data[ct][7] = ICs_tot[i][j][2]
-#         data[ct][8] = ICs_tot[i][j][3]
-#         data[ct][9] = hddot0_tot[i][j]
-#         data[ct][10] = tp_lamb_tot[i][j]
-#         data[ct][11] = tf_sim_tot[i][j]
-#         data[ct][12] = max_D_tot[i][j]
-#         data[ct][13] = drag_integral_tot[i][j]
-#         data[ct][14] = drag_integral_hor_tot[i][j]
-#         data[ct][15] = drag_integral_ver_tot[i][j]
-#         data[ct][16] = drag_integral_no_v_tot[i][j]
-#         data[ct][17] = vp_tot[i][j]
-#         data[ct][18] = energy_array[i][j]
+# ICs_tot = rp_sorting(ICs_tot)
+
+# hddot0_tot = rp_sorting(hddot0_tot)
+# tp_lamb_tot = rp_sorting(tp_lamb_tot)
+# tf_sim_tot = rp_sorting(tf_sim_tot)
+
+# max_D_tot = rp_sorting(max_D_tot)
+# drag_integral_tot = rp_sorting(drag_integral_tot)
+# drag_integral_hor_tot = rp_sorting(drag_integral_hor_tot)
+
+# drag_integral_ver_tot = rp_sorting(drag_integral_ver_tot)
+# drag_integral_no_v_tot = rp_sorting(drag_integral_no_v_tot)
+# vp_tot = rp_sorting(vp_tot)
+# energy_array = rp_sorting(energy_array)
+
+print(a_tot)
+
+
+for i in range(len(ra_list)):
+    for j in range(len(rp)):
+        data[ct][0] = ra_list[i]
+        data[ct][1] = rp[j]
+        data[ct][2] = a_tot[i][j]
+        data[ct][3] = b_tot[i][j]
+        data[ct][4] = c_tot[i][j]
+        data[ct][5] = ICs_tot[i][j][0]
+        data[ct][6] = ICs_tot[i][j][1]
+        data[ct][7] = ICs_tot[i][j][2]
+        data[ct][8] = ICs_tot[i][j][3]
+        data[ct][9] = hddot0_tot[i][j]
+        data[ct][10] = tp_lamb_tot[i][j]
+        data[ct][11] = tf_sim_tot[i][j]
+        data[ct][12] = max_D_tot[i][j]
+        data[ct][13] = drag_integral_tot[i][j]
+        data[ct][14] = drag_integral_hor_tot[i][j]
+        data[ct][15] = drag_integral_ver_tot[i][j]
+        data[ct][16] = drag_integral_no_v_tot[i][j]
+        data[ct][17] = vp_tot[i][j]
+        data[ct][18] = energy_array[i][j]
         
-#         ct = ct+1
+        ct = ct+1
 
-# with open('data/data_all_sims.csv', 'w', encoding='UTF8', newline='') as f:
-#     writer = csv.writer(f)
+with open('data/data_all_sims.csv', 'w', encoding='UTF8', newline='') as f:
+    writer = csv.writer(f)
 
-#     # write the header
-#     writer.writerow(header)
+    # write the header
+    writer.writerow(header)
 
-#     # write the data
-#     writer.writerows(data)
+    # write the data
+    writer.writerows(data)
 
 
 # # r90 = []
