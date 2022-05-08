@@ -63,7 +63,7 @@ time_array = []
 
 
 ra  = np.array(range(5000,41000,1000))
-rp = np.array(range(90,124,1))
+rp = np.array(range(90,123,1))
 
 ra_list = []
 
@@ -93,10 +93,10 @@ for folder in sorted(os.listdir(directory)):
 
     rp_list = []
 
-    if track ==6:
-        break
+    # if track ==2:
+    #     break
 
-    track = track+1
+    # track = track+1
 
 
     for folder2 in sorted(os.listdir(os.path.join(directory,folder))):
@@ -756,14 +756,12 @@ def rp_sorting(x):
 # plt.legend(fontsize=16)
 # ax23.grid()
 
-# import csv
+import csv
 
 # print(tf_sim_tot)
 
 # header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral drag", "Periapsis velocity", "Integral drag no v", "Integral hor drag", "Integral ver drag"]
 header = ['Simulation','hp', 'a','b','c', 'h0', 'v0', 'y0', 'rho0' ,'hddot0','tp_lamb',"tf_sim","Initial drag", "Integral drag", "Integral hor drag", "Integral ver drag", "Integral drag no v", "Periapsis velocity", "Energy Diff"]
-
-print(np.size(hddot0_tot))
 
 data = np.empty(((36*33)+1,len(header)))
 
@@ -788,30 +786,27 @@ ct = 0
 # vp_tot = rp_sorting(vp_tot)
 # energy_array = rp_sorting(energy_array)
 
-print(a_tot)
-
-
 for i in range(len(ra_list)):
     for j in range(len(rp)):
         data[ct][0] = ra_list[i]
         data[ct][1] = rp[j]
-        data[ct][2] = a_tot[i][j]
-        data[ct][3] = b_tot[i][j]
-        data[ct][4] = c_tot[i][j]
-        data[ct][5] = ICs_tot[i][j][0]
-        data[ct][6] = ICs_tot[i][j][1]
-        data[ct][7] = ICs_tot[i][j][2]
-        data[ct][8] = ICs_tot[i][j][3]
-        data[ct][9] = hddot0_tot[i][j]
-        data[ct][10] = tp_lamb_tot[i][j]
-        data[ct][11] = tf_sim_tot[i][j]
-        data[ct][12] = max_D_tot[i][j]
-        data[ct][13] = drag_integral_tot[i][j]
-        data[ct][14] = drag_integral_hor_tot[i][j]
-        data[ct][15] = drag_integral_ver_tot[i][j]
-        data[ct][16] = drag_integral_no_v_tot[i][j]
-        data[ct][17] = vp_tot[i][j]
-        data[ct][18] = energy_array[i][j]
+        data[ct][2] = a_tot[i][0][j]
+        data[ct][3] = b_tot[i][0][j]
+        data[ct][4] = c_tot[i][0][j]
+        data[ct][5] = ICs_tot[i][0][j][0]
+        data[ct][6] = ICs_tot[i][0][j][1]
+        data[ct][7] = ICs_tot[i][0][j][2]
+        data[ct][8] = ICs_tot[i][0][j][3]
+        data[ct][9] = hddot0_tot[i][0][j]
+        data[ct][10] = tp_lamb_tot[i][0][j]
+        data[ct][11] = tf_sim_tot[i][0][j]
+        data[ct][12] = max_D_tot[i][0][j]
+        data[ct][13] = drag_integral_tot[i][0][j]
+        data[ct][14] = drag_integral_hor_tot[i][0][j]
+        data[ct][15] = drag_integral_ver_tot[i][0][j]
+        data[ct][16] = drag_integral_no_v_tot[i][0][j]
+        data[ct][17] = vp_tot[i][0][j]
+        data[ct][18] = energy_array[i][0][j]
         
         ct = ct+1
 
