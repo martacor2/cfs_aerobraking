@@ -202,11 +202,21 @@ energy_diff_array = array_conversion(np.divide(energy_diff,1000))
 # fig_3D.savefig("all_sims_figures/3d_a_drag0_energy.png")
 
 fig= plt.figure(dpi=500, figsize=[6,4])
-for i in range(len(rp_list)):
+for i in range(0,len(rp_list),5):
     plt.scatter([row[i] for row in ra_array], [row[i] for row in a_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
-# plt.legend();
+plt.legend();
 plt.grid()
 plt.xlabel("ra (km)")
 plt.ylabel("$a$")
 fig.savefig("all_views/a_coefficient/a_coeff_ra.png")
+fig.clear()
+
+fig= plt.figure(dpi=500, figsize=[6,4])
+for i in range(0,len(rp_list),10):
+    plt.scatter([row[i] for row in rho0_array], [row[i] for row in c_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
+plt.legend();
+plt.grid()
+plt.xlabel(r"$\rho_0 (kg/m^3)$")
+plt.ylabel("$c$")
+fig.savefig("all_views/c_coefficient/c_coeff_rho0.png")
 fig.clear()
