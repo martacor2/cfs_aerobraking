@@ -47,8 +47,8 @@ energy_diff = np.array(csv_file["Energy Diff"])
 
 a_axis = np.divide(np.subtract(np.multiply(ra,1000),np.add(np.multiply(hp,1000),Rp)),2)
 # energy = a_axis
-energy = np.multiply(1/(Sref*(CD_0*aoa)), np.divide(drag0,rho0))
-# energy = np.divide(-mu/2, a_axis)
+# energy = np.multiply(1/(Sref*(CD_0*aoa)), np.divide(drag0,rho0))
+energy = np.divide(-mu/2, a_axis)
 
 ra_list  = np.array(range(5000,41000,1000))
 rp_list = np.array(range(90,123,1))
@@ -206,47 +206,88 @@ energy_diff_array = array_conversion(np.divide(energy_diff,1000))
 # # plt.show()
 # fig_3D.savefig("all_sims_figures/3d_a_drag0_energy.png")
 
-# fig= plt.figure(dpi=500, figsize=[6,4])
+fig= plt.figure(dpi=500, figsize=[6,4])
+for i in range(0,len(rp_list),5):
+    plt.scatter([row[i] for row in energy_array], [row[i] for row in a_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
+plt.legend();
+plt.grid()
+plt.xlabel("Specific Energy")
+plt.ylabel("$a$")
+fig.savefig("all_views/a_coefficient/a_coeff_energy.png")
+fig.clear()
+
+# fig= plt.figure(dpi=500, figsize=[6.5,4])
 # for i in range(0,len(rp_list),5):
-#     plt.scatter([row[i] for row in ra_array], [row[i] for row in a_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
+# # for i in range(0,1,1):
+#     plt.scatter([row[i] for row in ra_array], [row[i] for row in c_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
 # plt.legend();
 # plt.grid()
-# plt.xlabel("ra (km)")
-# plt.ylabel("$a$")
-# fig.savefig("all_views/a_coefficient/a_coeff_ra.png")
+# plt.xlabel(r"$ra (km)$")
+# plt.ylabel("$c$")
+# fig.savefig("all_views/c_coefficient/c_coeff_ra.png")
 # fig.clear()
 
-fig= plt.figure(dpi=500, figsize=[6.5,4])
-for i in range(0,len(rp_list),5):
-# for i in range(0,1,1):
-    plt.scatter([row[i] for row in ra_array], [row[i] for row in c_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
-plt.legend();
-plt.grid()
-plt.xlabel(r"$ra (km)$")
-plt.ylabel("$c$")
-fig.savefig("all_views/c_coefficient/c_coeff_ra.png")
-fig.clear()
+# fig= plt.figure(dpi=500, figsize=[6.5,4])
+# for i in range(0,len(rp_list),5):
+# # for i in range(0,1,1):
+#     plt.scatter([row[i] for row in ra_array], [row[i] for row in b_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
+# plt.legend();
+# plt.grid()
+# plt.xlabel(r"$ra (km)$")
+# plt.ylabel("$b$")
+# fig.savefig("all_views/c_coefficient/b_coeff_ra.png")
+# fig.clear()
 
-fig= plt.figure(dpi=500, figsize=[6.5,4])
-for i in range(0,len(rp_list),5):
-# for i in range(0,1,1):
-    plt.scatter([row[i] for row in ra_array], [row[i] for row in b_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
-plt.legend();
-plt.grid()
-plt.xlabel(r"$ra (km)$")
-plt.ylabel("$b$")
-fig.savefig("all_views/c_coefficient/b_coeff_ra.png")
-fig.clear()
-
-fig= plt.figure(dpi=500, figsize=[6.5,4])
-for i in range(0,len(rp_list),5):
-# for i in range(0,1,1):
-    plt.scatter([row[i] for row in tp_lamb_array], [row[i] for row in c_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
-plt.legend();
-plt.grid()
-plt.xlabel(r"$t_p (s)$")
-plt.ylabel("$c$")
-fig.savefig("all_views/c_coefficient/c_coeff_tp_lamb.png")
-fig.clear()
+# fig= plt.figure(dpi=500, figsize=[6.5,4])
+# for i in range(0,len(rp_list),5):
+# # for i in range(0,1,1):
+#     plt.scatter([row[i] for row in tp_lamb_array], [row[i] for row in c_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
+# plt.legend();
+# plt.grid()
+# plt.xlabel(r"$t_p (s)$")
+# plt.ylabel("$c$")
+# fig.savefig("all_views/c_coefficient/c_coeff_tp_lamb.png")
+# fig.clear()
 
 #the deeper in the atmosphere, the lower the coefficient, however the lower the time, the higher the coefficient
+
+# fig= plt.figure(dpi=500, figsize=[6.5,4])
+# for i in range(0,len(rp_list),5):
+# # for i in range(0,1,1):
+#     plt.scatter([row[i] for row in tp_lamb_array], [row[i] for row in c_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
+# plt.legend();
+# plt.grid()
+# plt.xlabel(r"$t_p (s)$")
+# plt.ylabel("$c$")
+# fig.savefig("all_views/c_coefficient/c_coeff_tp_lamb.png")
+# fig.clear()
+
+# fig_3D = plt.figure("3d", dpi=500, figsize=[6,4])
+fig_3D = plt.figure("3d")
+ax = fig_3D.add_subplot(projection = '3d')
+# CS = ax.plot_trisurf(rho0, a_coeff, v0, cmap=plt.cm.Spectral, linewidth=1, antialiased=True)
+# CB = fig_3D.colorbar(CS)
+for i in range(0,len(rp_list),5):
+# for i in range(0,1,1):
+    ax.plot([row[i] for row in energy_array], [row[i] for row in ra_array], [row[i] for row in a_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')  
+
+ax.set_xlabel("Specific Energy  $km^2/s^2$",size='x-large')
+ax.set_ylabel("$r_a$ (km)",size='x-large')
+ax.set_zlabel("$a$")
+# plt.bar_label("$v_0$")
+plt.legend(fontsize=12, bbox_to_anchor=(1.05, 1.0), loc='best')
+plt.grid()
+plt.show()
+fig_3D.savefig("all_views/a_coefficient/3Da_coeff_energy.png")
+
+
+# for i in range(1, 12):
+#     # print(i)
+
+#     r = [energy90[i], energy95[i], energy100[i], energy105[i], energy110[i]]
+#     v = [drag090[i], drag095[i], drag0100[i], drag0105[i], drag0110[i]]
+#     # v = [y090[i], y095[i], y0100[i], y0105[i], y0110[i]]
+#     a = [a_coeff90[i], a_coeff95[i], a_coeff100[i], a_coeff105[i], a_coeff110[i]]
+#     # v = [v090[i], v095[i], v0100[i], v0105[i], v0110[i]]
+
+#     ax.plot(r, v, a,'k-')
