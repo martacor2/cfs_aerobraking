@@ -34,6 +34,7 @@ v0 = np.array(csv_file["v0"])
 y0 = np.array(csv_file["y0"])
 rho0 = np.array(csv_file["rho0"])
 hddot0 = np.array(csv_file["hddot0"])
+tp_lamb = np.array(csv_file["tp_lamb"])
 tf_sim = np.array(csv_file["tf_sim"])
 drag0 = np.array(csv_file["Initial drag"])
 drag_int = np.array(csv_file["Integral drag"])
@@ -72,6 +73,10 @@ c_coeff_array = array_conversion(c_coeff)
 h0_array = array_conversion(h0)
 v0_array = array_conversion(v0)
 y0_array = array_conversion(y0)
+
+tp_lamb_array = array_conversion(tp_lamb)
+tf_sim_array = array_conversion(tf_sim)
+
 rho0_array = array_conversion(rho0)
 hddot0_array = array_conversion(hddot0)
 drag0_array = array_conversion(drag0)
@@ -201,22 +206,47 @@ energy_diff_array = array_conversion(np.divide(energy_diff,1000))
 # # plt.show()
 # fig_3D.savefig("all_sims_figures/3d_a_drag0_energy.png")
 
-fig= plt.figure(dpi=500, figsize=[6,4])
+# fig= plt.figure(dpi=500, figsize=[6,4])
+# for i in range(0,len(rp_list),5):
+#     plt.scatter([row[i] for row in ra_array], [row[i] for row in a_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
+# plt.legend();
+# plt.grid()
+# plt.xlabel("ra (km)")
+# plt.ylabel("$a$")
+# fig.savefig("all_views/a_coefficient/a_coeff_ra.png")
+# fig.clear()
+
+fig= plt.figure(dpi=500, figsize=[6.5,4])
 for i in range(0,len(rp_list),5):
-    plt.scatter([row[i] for row in ra_array], [row[i] for row in a_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
+# for i in range(0,1,1):
+    plt.scatter([row[i] for row in ra_array], [row[i] for row in c_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
 plt.legend();
 plt.grid()
-plt.xlabel("ra (km)")
-plt.ylabel("$a$")
-fig.savefig("all_views/a_coefficient/a_coeff_ra.png")
+plt.xlabel(r"$ra (km)$")
+plt.ylabel("$c$")
+fig.savefig("all_views/c_coefficient/c_coeff_ra.png")
 fig.clear()
 
-fig= plt.figure(dpi=500, figsize=[6,4])
-for i in range(0,len(rp_list),10):
-    plt.scatter([row[i] for row in rho0_array], [row[i] for row in c_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
+fig= plt.figure(dpi=500, figsize=[6.5,4])
+for i in range(0,len(rp_list),5):
+# for i in range(0,1,1):
+    plt.scatter([row[i] for row in ra_array], [row[i] for row in b_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
 plt.legend();
 plt.grid()
-plt.xlabel(r"$\rho_0 (kg/m^3)$")
-plt.ylabel("$c$")
-fig.savefig("all_views/c_coefficient/c_coeff_rho0.png")
+plt.xlabel(r"$ra (km)$")
+plt.ylabel("$b$")
+fig.savefig("all_views/c_coefficient/b_coeff_ra.png")
 fig.clear()
+
+fig= plt.figure(dpi=500, figsize=[6.5,4])
+for i in range(0,len(rp_list),5):
+# for i in range(0,1,1):
+    plt.scatter([row[i] for row in tp_lamb_array], [row[i] for row in c_coeff_array], marker='o', label = f'$h_p = {int(rp_list[i])}$ km')   
+plt.legend();
+plt.grid()
+plt.xlabel(r"$t_p (s)$")
+plt.ylabel("$c$")
+fig.savefig("all_views/c_coefficient/c_coeff_tp_lamb.png")
+fig.clear()
+
+#the deeper in the atmosphere, the lower the coefficient, however the lower the time, the higher the coefficient

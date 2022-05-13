@@ -530,7 +530,7 @@ for folder in sorted(os.listdir(directory)):
         rp_list.append(float(rp_file))
 
     def sorting_fun(x):
-        return x[24:] + x[0:24]
+        return x[23:] + x[0:23]
 
     final_diff = sorting_fun(final_diff)
     a_array = sorting_fun(a_array)

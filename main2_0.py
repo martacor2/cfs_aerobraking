@@ -30,8 +30,8 @@ CL_0=0.1
 Sref=11 #m^2
 
 #change path to appropriate folder
-folder = "11000"
-folder2='Results_ctrl=0_ra=11000_rp=90.0_hl=0.150_90.0deg'
+folder = "10000"
+folder2='Results_ctrl=0_ra=10000_rp=91.0_hl=0.150_90.0deg'
 
 directory = "ClosedFormSol_MarsGram/"+folder+"/"+folder2
 
@@ -549,5 +549,6 @@ print(aoa)
 
 print(np.min(h_sim))
 
-labels  = np.array(range(5000,41000,1000))
-print(labels[-2])
+print(y0)
+
+print(rho0)
